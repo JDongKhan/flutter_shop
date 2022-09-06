@@ -39,6 +39,8 @@ void _initIOSAndAndroid() {
 
 //初始化web或desktop
 void _initOther() {
+  //TODO 3.3以上版本支持下面代码
+  // PlatformDispatcher.onError;
   FlutterError.onError = (FlutterErrorDetails details) {
     //继续打印到控制台
     FlutterError.dumpErrorToConsole(details, forceReport: true);
@@ -62,7 +64,11 @@ void _initProject() async {
     Zone.current.handleUncaughtError(details.exception, details.stack!);
     return ErrorPage("${details.exception}\n ${details.stack}", details);
   };
-
+  //TODO 设置bugly的配置 https://pub.flutter-io.cn/packages/flutter_bugly
+  // FlutterBugly.init(
+  //   androidAppId: "your android app id",
+  //   iOSAppId: "your iOS app id",
+  // );
   // Isolate.current.addErrorListener(RawReceivePort(
   //   (dynamic pair) async {
   //     //上报isolate里面的异常。
