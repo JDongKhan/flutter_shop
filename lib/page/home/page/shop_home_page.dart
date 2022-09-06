@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/controller/theme_controller.dart';
 import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class ShopHomePage extends StatefulWidget {
 class _ShopHomePageState extends State<ShopHomePage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   final ShopHomeVM _vm = Get.put(ShopHomeVM());
+  final ThemeController _themeController = Get.find<ThemeController>();
   TabController? _tabController;
   double _offset = 0;
   final ListBottomMenuController _bottomMenuController =
@@ -81,10 +83,14 @@ class _ShopHomePageState extends State<ShopHomePage>
 
                       ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
                       sliver: ShopHomeAppBar(
-                        backgroundColor: Colors.blue,
-                        title: const Text(
+                        backgroundColor:
+                            _themeController.navigationBackgroundColor,
+                        title: Text(
                           '生产有限公司',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: TextStyle(
+                            color: _themeController.navigationTextColor,
+                            fontSize: 18,
+                          ),
                         ),
                         centerTitle: false,
                         expandedHeight: 140.0,

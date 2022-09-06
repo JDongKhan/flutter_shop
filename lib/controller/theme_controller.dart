@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 /// @author jd
 
 class ThemeController extends ChangeNotifier {
-  Color navigationBackgroundColor = const Color(0xFFEEEEEE);
-  Color navigationTextColor = const Color(0xFF666666);
+  Color navigationBackgroundColor = const Color(0xFF0000ff);
+  Color navigationTextColor = const Color(0xFFFFFFFF);
 
   bool showPerformanceOverlay = false;
   bool checkerboardRasterCacheImages = false;

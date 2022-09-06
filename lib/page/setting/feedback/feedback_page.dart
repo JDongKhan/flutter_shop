@@ -30,10 +30,14 @@ class _FeedbackState extends State<FeedbackPage> {
           children: [
             Container(
               height: 60,
+              width: double.infinity,
               color: Colors.white,
-              padding: const EdgeInsets.only(left: 0, right: 0, top: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
               child: DropdownButton<String>(
                 value: _selectedType,
+                isExpanded: true,
+                elevation: 0,
+                underline: Container(),
                 style: const TextStyle(color: Colors.black),
                 dropdownColor: Colors.grey[100],
                 items: _list

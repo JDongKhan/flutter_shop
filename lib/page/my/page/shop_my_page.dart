@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 
@@ -55,7 +56,8 @@ class _ShopMyPageState extends State<ShopMyPage>
       pinned: true,
 //      floating: true,
 //      snap: true,
-      backgroundColor: Colors.blue[100],
+      //backgroundColor导致
+//       backgroundColor: Colors.blue[100],
       flexibleSpace: FlexibleSpaceBar(
         //视差效果
         collapseMode: CollapseMode.parallax,
@@ -305,7 +307,8 @@ class _ShopMyPageState extends State<ShopMyPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Material(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
       child: NotificationListener(
           onNotification: (Notification scrollNotification) {
             if ((scrollNotification is ScrollUpdateNotification) &&

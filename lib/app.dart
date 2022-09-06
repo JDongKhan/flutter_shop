@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/controller/theme_controller.dart';
 import 'package:flutter_shop/controller/user_info_controller.dart';
@@ -37,6 +38,9 @@ class _MyAppState extends State<MyApp> {
     PaintingBinding.instance.imageCache.maximumSize = 100;
     //缓存大小 50m
     PaintingBinding.instance.imageCache.maximumSizeBytes = 50 << 20;
+    themeController.addListener(() {
+      setState(() {});
+    });
   }
 
   // This widget is the root of your application.
@@ -76,15 +80,18 @@ class _MyAppState extends State<MyApp> {
                   borderSide: BorderSide(width: 2.0, color: Colors.blue),
                 ),
               ),
-              appBarTheme: const AppBarTheme(
-                backgroundColor: Colors.blue,
-                elevation: 0,
+              appBarTheme: AppBarTheme(
+                backgroundColor: themeController.navigationBackgroundColor,
                 centerTitle: true,
+                iconTheme: IconTheme.of(context)
+                    .copyWith(color: themeController.navigationTextColor),
+                actionsIconTheme: IconTheme.of(context)
+                    .copyWith(color: themeController.navigationTextColor),
                 toolbarTextStyle: TextStyle(
-                  color: Colors.red,
+                  color: themeController.navigationTextColor,
                 ),
                 titleTextStyle: TextStyle(
-                  color: Colors.white,
+                  color: themeController.navigationTextColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

@@ -205,7 +205,9 @@ class _WebViewProgressState extends State<WebViewProgress> {
   @override
   void initState() {
     widget.controller?.addListener(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     super.initState();
   }
