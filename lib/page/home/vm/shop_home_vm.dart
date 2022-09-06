@@ -10,7 +10,7 @@ import '../../model/shop_info.dart';
 class ShopHomeVM extends GetxController {
   String? searchText;
 
-  var tabs = <Map<String, dynamic>>[].obs;
+  var tabs = <Map>[].obs;
 
   final List<ShopInfo> recommendList = [
     ShopInfo(
@@ -47,15 +47,10 @@ class ShopHomeVM extends GetxController {
     return true;
   }
 
-  Future loadData() async {
+  Future<List> loadData() async {
     final NetworkResponse response =
         await Network.get(environments.servicesPath.categoryList, mock: true);
     List list = response.data;
-    tabs.value = list
-        .map((e) => {
-              'title': e['name'],
-            })
-        .toList();
     return list;
   }
 }

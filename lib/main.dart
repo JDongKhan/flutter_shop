@@ -39,12 +39,16 @@ void _initIOSAndAndroid() {
 
 //初始化web或desktop
 void _initOther() {
-  //TODO 3.3以上版本支持下面代码
+  //TODO 3.3以上版本支持下面代码 https://flutter.cn/docs/testing/errors
   // PlatformDispatcher.onError;
   FlutterError.onError = (FlutterErrorDetails details) {
+    if (details.stack != null) {
+      Zone.current.handleUncaughtError(details.exception, details.stack!);
+    } else {
+      FlutterError.presentError(details);
+    }
     //继续打印到控制台
     FlutterError.dumpErrorToConsole(details, forceReport: true);
-    Zone.current.handleUncaughtError(details.exception, details.stack!);
   };
   // Some desktop specific code there
   runZonedGuarded(() {

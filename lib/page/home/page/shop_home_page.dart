@@ -37,8 +37,12 @@ class _ShopHomePageState extends State<ShopHomePage>
     _tabController = TabController(vsync: this, length: _vm.tabs.value.length);
 
     _vm.loadData().then((value) {
-      _tabController =
-          TabController(vsync: this, length: _vm.tabs.value.length);
+      _tabController = TabController(vsync: this, length: value.length);
+      _vm.tabs.value = value
+          .map<Map>((e) => {
+                'title': e['name'],
+              })
+          .toList();
     });
     super.initState();
   }
