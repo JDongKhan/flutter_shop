@@ -40,7 +40,10 @@ void _initIOSAndAndroid() {
 //初始化web或desktop
 void _initOther() {
   //TODO 3.3以上版本支持下面代码 https://flutter.cn/docs/testing/errors
-  // PlatformDispatcher.onError;
+  // PlatformDispatcher.instance.onError = (error, stack) {
+  //   // myBackend.sendError(error, stack);
+  //   return true;
+  // };
   FlutterError.onError = (FlutterErrorDetails details) {
     if (details.stack != null) {
       Zone.current.handleUncaughtError(details.exception, details.stack!);
