@@ -1,12 +1,12 @@
-import 'package:flutter_shop/base/base_list_controller.dart';
 import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 
+import '../../../../base/base_refresh_list_controller.dart';
 import '../../../model/carI_item.dart';
 import '../../../model/shop_info.dart';
 
 /// @author jd
 
-class ShopCarViewModel extends BaseListController<CarItem> {
+class ShopCarViewModel extends BaseRefreshListController<CarItem> {
   // 禁止改变购物车里的商品信息
 //  UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
 

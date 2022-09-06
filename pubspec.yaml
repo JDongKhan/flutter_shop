@@ -61,7 +61,7 @@ dependencies:
   #网络图片库
   cached_network_image: ^3.2.1
   #下拉刷新
-
+  easy_refresh: ^3.0.4+2
   pull_to_refresh_notification: ^2.3.0
   #闪光
   shimmer: ^2.0.0

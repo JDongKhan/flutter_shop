@@ -36,7 +36,7 @@ abstract class BaseRefreshListController<E> extends BaseListController<E> {
   }
 
   ///加载更多
-  Future onLoading() async {
+  Future onLoad() async {
     currentPage++;
     debugPrint('上拉刷新开始...');
     List<E>? list = await loadData();

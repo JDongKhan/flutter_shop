@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,13 +73,17 @@ class _ShopCarPageState extends State<ShopCarPage> {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: GetBuilder<ShopCarViewModel>(
         assignId: true,
-        builder: (c) {
-          return ListView.builder(
-            itemCount: _viewModel.data.length,
-            itemBuilder: (context, int index) {
-              CarItem item = _viewModel.data[index];
-              return ShopCarItem(item);
-            },
+        builder: (v) {
+          return EasyRefresh(
+            onRefresh: v.onRefresh,
+            onLoad: v.onLoad,
+            child: ListView.builder(
+              itemCount: _viewModel.data.length,
+              itemBuilder: (context, int index) {
+                CarItem item = _viewModel.data[index];
+                return ShopCarItem(item);
+              },
+            ),
           );
         },
       ),
