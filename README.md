@@ -10,6 +10,10 @@
 ![demo png](12.png "demo")
 ![demo png](13.png "demo")
 
+## 环境
+
+flutter version: >= 3.0.5
+
 ## 三方
 
 ```yaml
