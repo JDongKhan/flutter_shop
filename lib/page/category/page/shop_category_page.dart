@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../widgets/search_bar.dart';
-import '../search/page/shop_search_page.dart';
-import 'model/category.dart';
-import 'shop_category_vm.dart';
+import '../../../widgets/search_bar.dart';
+import '../../search/page/shop_search_page.dart';
+import '../controller/shop_category_controller.dart';
+import '../model/category.dart';
 
 /// @author jd
 
@@ -17,7 +17,7 @@ class ShopCategoryPage extends StatefulWidget {
 
 class _ShopCategoryPageState extends State<ShopCategoryPage>
     with AutomaticKeepAliveClientMixin {
-  final ShopCategoryVM _vm = Get.put(ShopCategoryVM());
+  final ShopCategoryController _controller = Get.put(ShopCategoryController());
 
   int _currentIndex = 0;
   @override
@@ -52,19 +52,18 @@ class _ShopCategoryPageState extends State<ShopCategoryPage>
   }
 
   Widget _buildSuggestions(BuildContext context) {
-    ShopCategoryVM viewModel = _vm;
     return Row(
       children: <Widget>[
-        _buildLeft(viewModel),
+        _buildLeft(_controller),
         Expanded(
-          child: _buildRightMenu(context, viewModel),
+          child: _buildRightMenu(context, _controller),
         ),
       ],
     );
   }
 
-  Widget _buildLeft(ShopCategoryVM viewModel) {
-    List allMenuInfo = viewModel.list.value;
+  Widget _buildLeft(ShopCategoryController controller) {
+    List<Category> allMenuInfo = controller.data;
     return Container(
       width: 100,
       color: Colors.grey[100],
@@ -120,8 +119,9 @@ class _ShopCategoryPageState extends State<ShopCategoryPage>
     );
   }
 
-  Widget _buildRightMenu(BuildContext context, ShopCategoryVM viewModel) {
-    List allMenuInfo = viewModel.list.value;
+  Widget _buildRightMenu(
+      BuildContext context, ShopCategoryController controller) {
+    List<Category> allMenuInfo = controller.data;
     if (allMenuInfo.isEmpty) {
       return Container();
     }

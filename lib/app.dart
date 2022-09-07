@@ -81,6 +81,8 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
             appBarTheme: AppBarTheme(
+              //状态栏颜色
+              systemOverlayStyle: SystemUiOverlayStyle.light,
               backgroundColor: themeController.navigationBackgroundColor,
               centerTitle: true,
               iconTheme: IconTheme.of(context)

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '/utils/asset_bundle_utils.dart';
+import '../../../widgets/custom_bouncing_scroll_physics.dart';
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
-import '../vm/custom_bouncing_scroll_physics.dart';
 
 /// @author jd
 class ShopHomeProductListPage1 extends StatefulWidget {
@@ -123,7 +123,7 @@ class _ShopHomeProductListPage1State extends State<ShopHomeProductListPage1>
                   maxLines: 2,
                   style: const TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                    // fontWeight: FontWeight.bold,
                   ),
                 )),
             Container(

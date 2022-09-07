@@ -17,6 +17,8 @@ class ServicesPath {
   }
   late Services services;
 
+  String get homeInfo => '${services.baseUrl}/app/home/home.do';
+
   ///订单查询接口
   String get orderQueryUrl => '${services.baseUrl}/app/order_query.do';
 

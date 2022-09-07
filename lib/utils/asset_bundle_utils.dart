@@ -7,6 +7,10 @@ class AssetBundleUtils {
     if (name == null) {
       return "";
     }
+    if (name.contains('.')) {
+      format = name.split('.').last;
+      name = name.split('.').first;
+    }
     return 'assets/images/$name.$format';
   }
 

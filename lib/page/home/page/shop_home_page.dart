@@ -11,7 +11,7 @@ import '../../../widgets/search_bar.dart';
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
 import '../../shop_main_page.dart';
-import '../vm/shop_home_vm.dart';
+import '../controller/shop_home_controller.dart';
 import '../widget/list_bottom_menu.dart';
 import '../widget/shop_home_appbar.dart';
 import '../widget/shop_home_widget_config.dart';
@@ -27,7 +27,7 @@ class ShopHomePage extends StatefulWidget {
 
 class _ShopHomePageState extends State<ShopHomePage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  final ShopHomeVM _vm = Get.put(ShopHomeVM());
+  final ShopHomeController _controller = Get.put(ShopHomeController());
   final ThemeController _themeController = Get.find<ThemeController>();
   TabController? _tabController;
   double _offset = 0;
@@ -36,16 +36,8 @@ class _ShopHomePageState extends State<ShopHomePage>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: _vm.tabs.value.length);
-
-    _vm.loadData().then((value) {
-      _tabController = TabController(vsync: this, length: value.length);
-      _vm.tabs.value = value
-          .map<Map>((e) => {
-                'title': e['name'],
-              })
-          .toList();
-    });
+    _tabController =
+        TabController(vsync: this, length: _controller.tabs.length);
     super.initState();
   }
 
@@ -53,114 +45,122 @@ class _ShopHomePageState extends State<ShopHomePage>
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        //底部菜单
         ListBottomMenu(
           controller: _bottomMenuController,
           onBack: () {
             _showMainPage();
           },
         ),
+        //上部分信息
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.linear,
           transform: Matrix4.translationValues(0.0, _offset, 0.0),
           child: _refreshWidget(
-            child: Obx(
-              () => NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  List<Widget> headerSlivers = [];
-
-                  //下拉刷新
-                  headerSlivers.add(PullToRefreshContainer(
-                    (info) => buildPulltoRefreshImage(context, info),
-                  ));
-
-                  //导航
-                  headerSlivers.add(
-                    SliverOverlapAbsorber(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
-
-                      ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
-                      sliver: ShopHomeAppBar(
-                        backgroundColor:
-                            _themeController.navigationBackgroundColor,
-                        title: Text(
-                          '生产有限公司',
-                          style: TextStyle(
-                            color: _themeController.navigationTextColor,
-                            fontSize: 18,
-                          ),
-                        ),
-                        centerTitle: false,
-                        expandedHeight: 140.0,
-                        brightness: Brightness.light,
-                        bottom: PreferredSize(
-                          preferredSize: const Size.fromHeight(60),
-                          child: _buildSearch(),
-                        ),
-                        // leading: const IconButton(
-                        //   icon: Icon(
-                        //     Icons.home,
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
-                        actions: <Widget>[
-                          IconButton(
-                            icon: const Icon(
-                              Icons.business,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-
-                  //空隙
-                  headerSlivers.add(
-                    const SliverToBoxAdapter(
-                      child: SafeArea(
-                        child: SizedBox(
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                  );
-
-                  //轮播图
-                  headerSlivers.add(SliverToBoxAdapter(child: _buildSwiper()));
-
-                  //菜单
-                  headerSlivers
-                      .add(SliverToBoxAdapter(child: _buildGridView()));
-
-                  if (_vm.tabs.isNotEmpty) {
-                    //tab菜单
-                    headerSlivers.add(_buildPersistentHeader());
-                  }
-                  return headerSlivers;
-                },
-                body: TabBarView(
-                  controller: _tabController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: _vm.tabs
-                      .map(
-                        (e) => _buildContentPage(e),
-                      )
-                      .toList(),
-                ),
-              ),
-            ),
+            child: GetBuilder<ShopHomeController>(builder: (controller) {
+              _tabController =
+                  TabController(vsync: this, length: controller.tabs.length);
+              return _buildScrollWidget(controller);
+            }),
           ),
         ),
       ],
     );
   }
 
+  Widget _buildScrollWidget(ShopHomeController controller) {
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        List<Widget> headerSlivers = [];
+
+        //下拉刷新
+        headerSlivers.add(PullToRefreshContainer(
+          (info) => buildPulltoRefreshImage(context, info),
+        ));
+
+        //导航
+        headerSlivers.add(
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+
+            ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
+            sliver: ShopHomeAppBar(
+              backgroundColor: _themeController.navigationBackgroundColor,
+              title: Text(
+                '生产有限公司',
+                style: TextStyle(
+                  color: _themeController.navigationTextColor,
+                  fontSize: 18,
+                ),
+              ),
+              centerTitle: false,
+              expandedHeight: 140.0,
+              brightness: Brightness.light,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: _buildSearch(),
+              ),
+              // leading: const IconButton(
+              //   icon: Icon(
+              //     Icons.home,
+              //     color: Colors.white,
+              //   ),
+              // ),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(
+                    Icons.business,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        );
+
+        //空隙
+        headerSlivers.add(
+          const SliverToBoxAdapter(
+            child: SafeArea(
+              child: SizedBox(
+                height: 50,
+              ),
+            ),
+          ),
+        );
+
+        //轮播图
+        if (_controller.banners.isNotEmpty) {
+          headerSlivers.add(SliverToBoxAdapter(child: _buildSwiper()));
+        }
+        //菜单
+        if (controller.recommends.isNotEmpty) {
+          headerSlivers.add(SliverToBoxAdapter(child: _buildGridView()));
+        }
+
+        if (controller.tabs.isNotEmpty) {
+          //tab菜单
+          headerSlivers.add(_buildPersistentHeader());
+        }
+        return headerSlivers;
+      },
+      body: TabBarView(
+        controller: _tabController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: controller.tabs
+            .map(
+              (e) => _buildContentPage(e),
+            )
+            .toList(),
+      ),
+    );
+  }
+
+  //tab下的页面
   Widget _buildContentPage(Map e) {
-    final int index = _vm.tabs.indexOf(e);
+    final int index = _controller.tabs.indexOf(e);
     if (index == 1) {
       return ShopHomeProductListPage1(
         keyword: e['title'].toString(),
@@ -171,6 +171,7 @@ class _ShopHomePageState extends State<ShopHomePage>
     );
   }
 
+  //隐藏底部导航
   void hiddenBottomBar(bool hidden) {
     ShopMainPage.of(context)?.hiddenBottomNavigationBar(hidden);
   }
@@ -187,7 +188,7 @@ class _ShopHomePageState extends State<ShopHomePage>
   Future<bool> _onRefresh() async {
     print('开始刷新了');
     // _globalKey.currentState.show(notificationDragOffset: 200);
-    await _vm.onRefresh();
+    await _controller.onRefresh();
     setState(() {
       _offset = get_screenHeight();
       _bottomMenuController.opacity = 1;
@@ -219,7 +220,7 @@ class _ShopHomePageState extends State<ShopHomePage>
       // height: 60,
       margin: const EdgeInsets.only(bottom: 10),
       child: SearchBar(
-        text: _vm.searchText,
+        text: _controller.searchText,
         onTap: () {},
       ),
     );
@@ -232,20 +233,14 @@ class _ShopHomePageState extends State<ShopHomePage>
       width: MediaQuery.of(context).size.width,
       height: 150,
       child: Swiper(
-        itemCount: 5,
+        itemCount: _controller.banners.length,
         autoplay: true,
         pagination: const SwiperPagination(
             builder: DotSwiperPaginationBuilder(
                 activeColor: Colors.red, color: Colors.green)),
         itemBuilder: (BuildContext context, int index) {
-          if (index % 2 == 0) {
-            return Image.asset(
-              AssetBundleUtils.getImgPath('bg_0', format: 'jpg'),
-              fit: BoxFit.fill,
-            );
-          }
           return Image.asset(
-            AssetBundleUtils.getImgPath('bg_1', format: 'jpg'),
+            AssetBundleUtils.getImgPath(_controller.banners[index]['image']),
             fit: BoxFit.fill,
           );
         },
@@ -269,7 +264,7 @@ class _ShopHomePageState extends State<ShopHomePage>
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
-        Container(
+        SizedBox(
           height: 180,
           child: GridView.builder(
               scrollDirection: Axis.horizontal,
@@ -278,9 +273,9 @@ class _ShopHomePageState extends State<ShopHomePage>
                   mainAxisSpacing: 15,
                   childAspectRatio: 1.4 //显示区域宽高相等
                   ),
-              itemCount: _vm.recommendList.length,
+              itemCount: _controller.recommends.length,
               itemBuilder: (context, index) {
-                ShopInfo shopInfo = _vm.recommendList[index];
+                ShopInfo shopInfo = _controller.recommends[index];
                 //如果显示到最后一个并且Icon总数小于200时继续获取数据
                 return _buildGirdItem(shopInfo);
               }),
@@ -355,8 +350,9 @@ class _ShopHomePageState extends State<ShopHomePage>
                 isScrollable: true,
                 indicatorSize: TabBarIndicatorSize.label,
                 // These are the widgets to put in each tab in the tab bar.
-                tabs:
-                    _vm.tabs.map((Map map) => Tab(text: map['title'])).toList(),
+                tabs: _controller.tabs
+                    .map<Tab>((dynamic map) => Tab(text: map['name']))
+                    .toList(),
               ),
             )),
       );
