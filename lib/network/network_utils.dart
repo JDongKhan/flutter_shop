@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:connectivity/connectivity.dart';
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_shop/network/cookie_manager.dart';
 
 import '/utils/toast_utils.dart';
-import '../utils/app_info.dart';
 import 'error_interceptor.dart';
 import 'mock_interceptor.dart';
 import 'retry_interceptor.dart';
@@ -32,6 +31,13 @@ parseJson(String text) {
 }
 
 class Network {
+  //单例
+  factory Network() => _getInstance();
+  static Network? _instance;
+  static Network _getInstance() {
+    return _instance ?? Network._();
+  }
+
   Network._() {
     final BaseOptions options = BaseOptions(
       connectTimeout: 20000,
@@ -56,11 +62,7 @@ class Network {
     if ((defaultTargetPlatform == TargetPlatform.iOS) ||
         (defaultTargetPlatform == TargetPlatform.android)) {
       _dio!.interceptors.add(
-        CookieManager(
-          PersistCookieJar(
-            storage: FileStorage(AppInfo.temporaryDirectory!.path),
-          ),
-        ),
+        CookieManager(CookiesManager.getInstance().cookieJar),
       );
     }
     (_dio!.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
@@ -102,15 +104,8 @@ class Network {
   CancelToken cancelToken = CancelToken();
   Dio? _dio;
 
-  factory Network() => _getInstance();
-  static Network? _instance;
-
   //是否是魔客
   static const bool _mock = true;
-
-  static Network _getInstance() {
-    return _instance ?? Network._();
-  }
 
   /// get请求
   static Future<NetworkResponse> get(

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-import 'config/services_path.dart';
+import 'src/services_path.dart';
+
+export 'src/extension_login.dart';
+export 'src/extension_shop.dart';
 
 /// @author jd
 

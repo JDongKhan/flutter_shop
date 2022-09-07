@@ -16,13 +16,4 @@ class ServicesPath {
     }
   }
   late Services services;
-
-  //首页信息
-  String get homeInfo => '${services.baseUrl}/app/home.do';
-
-  //用户信息
-  String get userInfo => '${services.baseUrl}/app/user.do';
-
-  //分类列表
-  String get categoryList => '${services.baseUrl}/app/category/category_list';
 }
