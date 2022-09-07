@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 
+import '/utils/asset_bundle_utils.dart';
 import '../../../utils/navigation_util.dart';
 import '../../setting/setting_page.dart';
 import '../vm/shop_my_vm.dart';

@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/page/shop_main_page.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
+import '/page/shop_main_page.dart';
 import '../../style/colors_style.dart';
 import '../../utils/navigation_util.dart';
 import '../../utils/object_utils.dart';

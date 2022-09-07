@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
+import '/utils/asset_bundle_utils.dart';
 import '../../../widgets/privacy_widget.dart';
 import '../../../widgets/webview/web_page.dart';
 

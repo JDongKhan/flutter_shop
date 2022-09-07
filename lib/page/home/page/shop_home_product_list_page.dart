@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
+import '/utils/asset_bundle_utils.dart';
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
 import '../vm/custom_bouncing_scroll_physics.dart';

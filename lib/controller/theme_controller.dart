@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 /// @author jd
 
-class ThemeController extends ChangeNotifier {
+class ThemeController extends GetxController {
   Color navigationBackgroundColor = const Color(0xFF0000ff);
   Color navigationTextColor = const Color(0xFFFFFFFF);
 
@@ -22,42 +23,42 @@ class ThemeController extends ChangeNotifier {
   void switchTheme({MaterialColor? color}) {
     _themeColor = color ?? _themeColor;
     navigationBackgroundColor = _themeColor!;
-    notifyListeners();
+    update();
   }
 
   void switchPerformanceOverlay(bool value) {
     showPerformanceOverlay = value;
-    notifyListeners();
+    update();
   }
 
   void switchCheckerboardRasterCacheImages(bool value) {
     checkerboardRasterCacheImages = value;
-    notifyListeners();
+    update();
   }
 
   void switchCheckerboardOffscreenLayers(bool value) {
     checkerboardOffscreenLayers = value;
-    notifyListeners();
+    update();
   }
 
   void switchDebugPaintSizeEnabled(bool value) {
     debugPaintSizeEnabled = value;
-    notifyListeners();
+    update();
   }
 
   void switchDebugPaintPointersEnabled(bool value) {
     debugPaintPointersEnabled = value;
-    notifyListeners();
+    update();
   }
 
   void switchDebugPaintLayerBordersEnabled(bool value) {
     debugPaintLayerBordersEnabled = value;
-    notifyListeners();
+    update();
   }
 
   void switchDebugRepaintRainbowEnabled(bool value) {
     debugRepaintRainbowEnabled = value;
-    notifyListeners();
+    update();
   }
 
   /// 随机一个主题色彩

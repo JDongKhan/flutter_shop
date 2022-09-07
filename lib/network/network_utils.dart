@@ -6,8 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_shop/utils/toast_utils.dart';
 
+import '/utils/toast_utils.dart';
 import '../utils/app_info.dart';
 import 'error_interceptor.dart';
 import 'mock_interceptor.dart';

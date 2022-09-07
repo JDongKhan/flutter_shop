@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_shop/controller/theme_controller.dart';
-import 'package:flutter_shop/controller/user_info_controller.dart';
-import 'package:flutter_shop/utils/navigation_util.dart';
 import 'package:get/get.dart';
 
+import '/controller/theme_controller.dart';
+import '/controller/user_info_controller.dart';
+import '/utils/navigation_util.dart';
 import 'routes/routes.dart';
 
 ///@Description TODO
@@ -54,52 +54,53 @@ class _MyAppState extends State<MyApp> {
     debugRepaintRainbowEnabled =
         themeController.debugRepaintRainbowEnabled; //重绘时周边显示旋转色
     return ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (context, child) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            checkerboardRasterCacheImages:
-                themeController.checkerboardRasterCacheImages,
-            checkerboardOffscreenLayers:
-                themeController.checkerboardOffscreenLayers,
-            navigatorKey: NavigationUtil.getInstance().navigatorKey,
-            theme: ThemeData(
-              //深色还是浅色
-              brightness: Brightness.light,
-              //text button样式
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  primary: Colors.black87,
-                ),
-              ),
-              tabBarTheme: TabBarTheme.of(context).copyWith(
-                labelColor: Colors.black,
-                indicator: const UnderlineTabIndicator(
-                  borderSide: BorderSide(width: 2.0, color: Colors.blue),
-                ),
-              ),
-              appBarTheme: AppBarTheme(
-                backgroundColor: themeController.navigationBackgroundColor,
-                centerTitle: true,
-                iconTheme: IconTheme.of(context)
-                    .copyWith(color: themeController.navigationTextColor),
-                actionsIconTheme: IconTheme.of(context)
-                    .copyWith(color: themeController.navigationTextColor),
-                toolbarTextStyle: TextStyle(
-                  color: themeController.navigationTextColor,
-                ),
-                titleTextStyle: TextStyle(
-                  color: themeController.navigationTextColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          checkerboardRasterCacheImages:
+              themeController.checkerboardRasterCacheImages,
+          checkerboardOffscreenLayers:
+              themeController.checkerboardOffscreenLayers,
+          navigatorKey: NavigationUtil.getInstance().navigatorKey,
+          theme: ThemeData(
+            //深色还是浅色
+            brightness: Brightness.light,
+            //text button样式
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Colors.black87,
               ),
             ),
-            initialRoute: "/",
-            onGenerateRoute: Routers.generateRoute,
-          );
-        });
+            tabBarTheme: TabBarTheme.of(context).copyWith(
+              labelColor: Colors.black,
+              indicator: const UnderlineTabIndicator(
+                borderSide: BorderSide(width: 2.0, color: Colors.blue),
+              ),
+            ),
+            appBarTheme: AppBarTheme(
+              backgroundColor: themeController.navigationBackgroundColor,
+              centerTitle: true,
+              iconTheme: IconTheme.of(context)
+                  .copyWith(color: themeController.navigationTextColor),
+              actionsIconTheme: IconTheme.of(context)
+                  .copyWith(color: themeController.navigationTextColor),
+              toolbarTextStyle: TextStyle(
+                color: themeController.navigationTextColor,
+              ),
+              titleTextStyle: TextStyle(
+                color: themeController.navigationTextColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          initialRoute: "/",
+          onGenerateRoute: Routers.generateRoute,
+        );
+      },
+    );
   }
 }

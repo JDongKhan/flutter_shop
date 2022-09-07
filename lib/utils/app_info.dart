@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_shop/utils/storage_utils.dart';
 
+import '/utils/storage_utils.dart';
 import 'path_utils.dart';
 
 /// @author jd

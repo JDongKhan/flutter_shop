@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
+
+import '/utils/asset_bundle_utils.dart';
 
 class DirectionButton extends StatelessWidget {
   const DirectionButton({

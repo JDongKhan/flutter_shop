@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/extension/extension_string.dart';
 import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 
+import '/extension/extension_string.dart';
 import 'path_utils.dart';
 
 /// 日志工具

@@ -1,5 +1,4 @@
-import 'package:flutter_shop/base/base_common_controller.dart';
-
+import '/base/base_common_controller.dart';
 import '../../../network/network_utils.dart';
 
 /// @author jd

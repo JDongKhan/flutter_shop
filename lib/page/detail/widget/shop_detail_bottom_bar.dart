@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
-import 'package:flutter_shop/widgets/direction_button.dart';
 
+import '/utils/asset_bundle_utils.dart';
+import '/widgets/direction_button.dart';
 import '../../../widgets/step_number_widget.dart';
 import '../../shop_main_page.dart';
 

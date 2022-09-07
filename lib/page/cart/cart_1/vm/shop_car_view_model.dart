@@ -1,5 +1,4 @@
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
-
+import '/utils/asset_bundle_utils.dart';
 import '../../../../base/base_refresh_list_controller.dart';
 import '../../../model/carI_item.dart';
 import '../../../model/shop_info.dart';

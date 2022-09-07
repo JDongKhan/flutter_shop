@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
-import 'package:flutter_shop/page/error/error_page.dart';
-import 'package:flutter_shop/utils/app_info.dart';
 
+import '/page/error/error_page.dart';
+import '/utils/app_info.dart';
 import 'app.dart';
 import 'service/environment.dart';
 

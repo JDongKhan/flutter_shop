@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/base/base_common_controller.dart';
+
+import '/base/base_common_controller.dart';
 
 /// @author jd
 

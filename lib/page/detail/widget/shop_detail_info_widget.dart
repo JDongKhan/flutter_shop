@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
-import 'package:flutter_shop/utils/toast_utils.dart';
-import 'package:flutter_shop/widgets/direction_button.dart';
 
+import '/utils/asset_bundle_utils.dart';
+import '/utils/toast_utils.dart';
+import '/widgets/direction_button.dart';
 import '../../../utils/screen_utils.dart';
 import '../../../widgets/star_rating_widget.dart';
 import '../../model/shop_info.dart';

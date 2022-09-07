@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_shop/page/splash/splash_page.dart';
 
+import '/page/splash/splash_page.dart';
 import '../page/error/not_find_page.dart';
 
 final Map<String, WidgetBuilder> _routes = <String, WidgetBuilder>{

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/controller/theme_controller.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
+import '/controller/theme_controller.dart';
+import '/utils/asset_bundle_utils.dart';
 import '../../../utils/screen_utils.dart';
 import '../../../widgets/common_sliver_persistent_header_delegate.dart';
 import '../../../widgets/search_bar.dart';

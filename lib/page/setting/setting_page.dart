@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
-import 'package:flutter_shop/utils/toast_utils.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '/utils/asset_bundle_utils.dart';
+import '/utils/toast_utils.dart';
 import '../../controller/theme_controller.dart';
 import '../../controller/user_info_controller.dart';
 import '../../style/styles.dart';
@@ -87,13 +87,12 @@ class _SettingPageState extends State {
                 margin: const EdgeInsets.only(top: 40),
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 height: 50,
-                child: FlatButton(
-                  color: Colors.redAccent,
-                  highlightColor: Colors.green[700],
-                  colorBrightness: Brightness.dark,
-                  splashColor: Colors.grey,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    primary: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                  ),
                   child: const Text('退出'),
                   onPressed: () {
                     _logoutAction();

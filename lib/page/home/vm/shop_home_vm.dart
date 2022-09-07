@@ -1,6 +1,6 @@
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
 import 'package:get/get.dart';
 
+import '/utils/asset_bundle_utils.dart';
 import '../../../network/network_utils.dart';
 import '../../../service/environment.dart';
 import '../../model/shop_info.dart';
