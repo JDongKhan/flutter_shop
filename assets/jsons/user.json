@@ -11,5 +11,71 @@
   "followers": 20,
   "following": 0,
   "created_at": "2008-01-14T04:33:35Z",
-  "updated_at": "2008-01-14T04:33:35Z"
+  "updated_at": "2008-01-14T04:33:35Z",
+  "headMenu": [
+    {
+      "icon": "memory",
+      "title": "钻石"
+    },
+    {
+      "icon": "filter_center_focus",
+      "title": "关注"
+    },
+    {
+      "icon": "border_horizontal",
+      "title": "足迹"
+    },
+    {
+      "icon": "contact_phone",
+      "title": "优惠券"
+    }
+  ],
+  "orderMenu": [
+    {
+      "icon": "payment",
+      "title": "待支付"
+    },
+    {
+      "icon": "send",
+      "title": "待发货"
+    },
+    {
+      "icon" : "receipt",
+      "title" : "待收货"
+    },
+    {
+      "icon" : "comment",
+      "title" : "待评价"
+    },
+    {
+      "icon" : "backpack",
+      "title" : "退款/售后"
+    }
+  ],
+  "gridMenu": [
+    {
+      "icon": "assignment",
+      "title": "发票"
+    },
+    {
+      "icon": "contact_phone",
+      "title": "客服"
+    },
+    {
+      "icon": "border_color",
+      "title": "意见反馈"
+    },
+    {
+      "icon": "help",
+      "title": "帮助"
+    },
+    {
+      "icon": "people",
+      "title": "合作伙伴"
+    },
+    {
+      "icon": "color_lens",
+      "title": "我的余额"
+    }
+  ]
 }

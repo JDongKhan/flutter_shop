@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '/utils/asset_bundle_utils.dart';
 import '../../../widgets/direction_button.dart';
@@ -9,12 +8,14 @@ import '../../model/shop_info.dart';
 import '../widget/shop_search_filter_widget.dart';
 
 /// @author jd
-class ShopSearchPage extends StatefulWidget {
+class ShopSearchResultPage extends StatefulWidget {
+  const ShopSearchResultPage({Key? key}) : super(key: key);
+
   @override
-  _ShopSearchPageState createState() => _ShopSearchPageState();
+  State createState() => _ShopSearchResultPageState();
 }
 
-class _ShopSearchPageState extends State<ShopSearchPage> {
+class _ShopSearchResultPageState extends State<ShopSearchResultPage> {
   List<ShopInfo> list = [];
 
   bool showGrid = false;

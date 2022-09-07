@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../model/shop_info.dart';
-import '../vm/shop_detail_view_model.dart';
+import '../controller/shop_detail_controller.dart';
 import '../widget/shop_detail_bottom_bar.dart';
 import '../widget/shop_detail_info_widget.dart';
 import '../widget/shop_detail_navigator_widget.dart';
@@ -20,7 +20,7 @@ class ShopDetailPage extends StatefulWidget {
 class _ShopDetailPageState extends State<ShopDetailPage> {
   final ShopDetailNavigatorController _controller =
       ShopDetailNavigatorController();
-  ShopDetailViewModel model = Get.put(ShopDetailViewModel());
+  ShopDetailController controller = Get.put(ShopDetailController());
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(

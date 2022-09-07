@@ -5,7 +5,7 @@ import '../../../model/shop_info.dart';
 
 /// @author jd
 
-class ShopCarViewModel extends BaseRefreshListController<CarItem> {
+class ShopCarController extends BaseRefreshListController<CarItem> {
   // 禁止改变购物车里的商品信息
 //  UnmodifiableListView<Item> get items => UnmodifiableListView(_items);
 

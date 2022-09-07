@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../widgets/circle_check_box.dart';
 import '../../../../widgets/step_number_widget.dart';
 import '../../../model/carI_item.dart';
-import '../vm/shop_car_view_model.dart';
+import '../controller/shop_car_controller.dart';
 
 /// @author jd
 class ShopCarItem extends StatefulWidget {
@@ -17,7 +17,7 @@ class ShopCarItem extends StatefulWidget {
 class _ShopCarItemState extends State<ShopCarItem> {
   @override
   Widget build(BuildContext context) {
-    ShopCarViewModel viewModel = Get.find<ShopCarViewModel>();
+    ShopCarController controller = Get.find<ShopCarController>();
     CarItem item = widget.carItem;
     bool checked = item.checked;
     return Container(
@@ -31,7 +31,7 @@ class _ShopCarItemState extends State<ShopCarItem> {
           CircleCheckBox(
             value: checked,
             onChanged: (value) {
-              viewModel.checkItem(item, value);
+              controller.checkItem(item, value);
             },
           ),
           if (item.shopInfo.icon != null)
@@ -83,7 +83,7 @@ class _ShopCarItemState extends State<ShopCarItem> {
                       value: item.count,
                       onChanged: (v) {
                         item.count = v;
-                        viewModel.update();
+                        controller.update();
                       },
                     ),
                   ],

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../utils/asset_bundle_utils.dart';
 import '../../../model/carI_item.dart';
 import '../../../model/shop_info.dart';
-import '../vm/shop_car_view_model.dart';
+import '../controller/shop_car_controller.dart';
 import '../widget/shop_car_bottom_widget.dart';
 import '../widget/shop_car_item.dart';
 
@@ -19,7 +19,7 @@ class ShopCarPage extends StatefulWidget {
 }
 
 class _ShopCarPageState extends State<ShopCarPage> {
-  final ShopCarViewModel _viewModel = Get.put(ShopCarViewModel());
+  final ShopCarController _viewModel = Get.put(ShopCarController());
 
   @override
   void initState() {
@@ -71,12 +71,12 @@ class _ShopCarPageState extends State<ShopCarPage> {
   Widget _buildListItem() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: GetBuilder<ShopCarViewModel>(
+      child: GetBuilder<ShopCarController>(
         assignId: true,
-        builder: (v) {
+        builder: (c) {
           return EasyRefresh(
-            onRefresh: v.onRefresh,
-            onLoad: v.onLoad,
+            onRefresh: c.onRefresh,
+            onLoad: c.onLoad,
             child: ListView.builder(
               itemCount: _viewModel.data.length,
               itemBuilder: (context, int index) {

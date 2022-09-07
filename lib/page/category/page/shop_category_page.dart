@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../widgets/search_bar.dart';
-import '../../search/page/shop_search_page.dart';
+import '../../search/page/shop_search_result_page.dart';
 import '../controller/shop_category_controller.dart';
 import '../model/category.dart';
 
@@ -141,34 +141,31 @@ class _ShopCategoryPageState extends State<ShopCategoryPage>
         itemCount: currentList?.length,
         itemBuilder: (context, i) {
           SubCategory item = currentList![i];
-          return GestureDetector(
-            child: Container(
-              alignment: Alignment.center,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  minimumSize: Size(width, 40),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
-                    ),
-                  ),
-                  side: BorderSide(
-                    color: Colors.grey[300]!,
+          return Container(
+            alignment: Alignment.center,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                minimumSize: Size(width, 40),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
                   ),
                 ),
-                onPressed: () {},
-                child: AutoSizeText(
-                  item.name ?? '',
-                  style: const TextStyle(fontSize: 14.0),
+                side: BorderSide(
+                  color: Colors.grey[300]!,
                 ),
               ),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return const ShopSearchResultPage();
+                }));
+              },
+              child: AutoSizeText(
+                item.name ?? '',
+                style: const TextStyle(fontSize: 14.0),
+              ),
             ),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return ShopSearchPage();
-              }));
-              // _pushSaved(text, item['router'], item['page']);
-            },
           );
         });
   }

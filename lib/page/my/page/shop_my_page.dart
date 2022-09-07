@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 import '/utils/asset_bundle_utils.dart';
 import '../../../utils/navigation_util.dart';
 import '../../setting/setting_page.dart';
-import '../vm/shop_my_vm.dart';
+import '../controller/shop_my_controller.dart';
 import 'member_home_page.dart';
 
 /// @author jd
@@ -19,10 +20,28 @@ class ShopMyPage extends StatefulWidget {
 
 class _ShopMyPageState extends State<ShopMyPage>
     with AutomaticKeepAliveClientMixin {
-  final ShopMyVm _shopMyVm = ShopMyVm();
+  final ShopMyController _shopMyController = Get.put(ShopMyController());
   int _appBarStyle = 0;
   bool _showToTopBtn = false; //是否显示“返回到顶部”按钮
   final ScrollController _controller = ScrollController();
+
+  Map<String, IconData> iconsMap = {
+    "memory": Icons.memory,
+    "filter_center_focus": Icons.filter_center_focus,
+    "border_horizontal": Icons.border_horizontal,
+    "contact_phone": Icons.contact_phone,
+    "payment": Icons.payment,
+    "send": Icons.send,
+    "receipt": Icons.receipt,
+    "comment": Icons.comment,
+    "backpack": Icons.backpack,
+    "assignment": Icons.assignment,
+    "contact_phone": Icons.contact_phone,
+    "border_color": Icons.border_color,
+    "help": Icons.help,
+    "people": Icons.people,
+    "color_lens": Icons.color_lens,
+  };
 
   @override
   void initState() {
@@ -35,6 +54,63 @@ class _ShopMyPageState extends State<ShopMyPage>
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: NotificationListener(
+          onNotification: (Notification scrollNotification) {
+            if ((scrollNotification is ScrollUpdateNotification) &&
+                (scrollNotification.depth == 0)) {
+              _onScroll(scrollNotification.metrics.pixels);
+            }
+            return true;
+          },
+          child: Stack(
+            children: <Widget>[
+              Container(
+                color: Colors.grey[200],
+              ),
+              GetBuilder<ShopMyController>(builder: (controller) {
+                return _buildScrollWidget();
+              }),
+            ],
+          )),
+    );
+  }
+
+  Widget _buildScrollWidget() {
+    return CustomScrollView(
+      controller: _controller,
+      slivers: <Widget>[
+        //AppBar，包含一个导航栏
+        if (_appBarStyle == 0) _buildStyle0AppBar() else _buildStyle1AppBar(),
+
+        //订单菜单
+        SliverPadding(
+          padding: const EdgeInsets.only(top: 10),
+          sliver: _buildOrderMenusWidget(),
+        ),
+
+        //功能菜单
+        SliverPadding(
+          padding: const EdgeInsets.only(top: 10),
+          sliver: _buildFunctionMenuWidget(),
+        ),
+
+        //推荐商品title
+        SliverPadding(
+          padding: const EdgeInsets.only(top: 10),
+          sliver: _buildRecommendTitleWidget(),
+        ),
+        //推荐商品列表
+        _buildRecommendGridWidget(),
+      ],
+    );
+  }
+
+  //导航1
   Widget _buildStyle0AppBar() {
     return SliverAppBar(
       expandedHeight: 250,
@@ -70,13 +146,14 @@ class _ShopMyPageState extends State<ShopMyPage>
               width: double.infinity,
               fit: BoxFit.fitWidth,
             ),
-            _buildMesnuGrid(),
+            _buildMenusGridWidget(),
           ],
         ),
       ),
     );
   }
 
+  //导航2
   Widget _buildStyle1AppBar() {
     return SliverAppBar(
       pinned: true,
@@ -104,6 +181,7 @@ class _ShopMyPageState extends State<ShopMyPage>
     );
   }
 
+  //左边头像
   Widget _buildLeading() => Container(
         margin: const EdgeInsets.all(10),
         child: Row(
@@ -118,6 +196,7 @@ class _ShopMyPageState extends State<ShopMyPage>
         ),
       );
 
+  //右侧设置按钮
   List<Widget> _buildAction() => <Widget>[
         IconButton(
           icon: Icon(
@@ -130,7 +209,8 @@ class _ShopMyPageState extends State<ShopMyPage>
         )
       ];
 
-  Widget _buildMesnuGrid() {
+  //顶部菜单
+  Widget _buildMenusGridWidget() {
     return Container(
       height: 90,
       child: GridView.count(
@@ -138,14 +218,14 @@ class _ShopMyPageState extends State<ShopMyPage>
         shrinkWrap: true,
         padding: const EdgeInsets.all(0),
         physics: const NeverScrollableScrollPhysics(),
-        children: _shopMyVm.headMenu
+        children: _shopMyController.headMenu
             .map((e) => Container(
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {},
                     child: Tab(
                       icon: Icon(
-                        e['icon'] as IconData,
+                        iconsMap[e['icon']] as IconData,
                         color: Colors.white,
                       ),
                       child: Text(
@@ -160,7 +240,8 @@ class _ShopMyPageState extends State<ShopMyPage>
     );
   }
 
-  Widget _buildOrder() {
+  //订单菜单
+  Widget _buildOrderMenusWidget() {
     return SliverToBoxAdapter(
       child: Card(
         child: Column(
@@ -199,8 +280,9 @@ class _ShopMyPageState extends State<ShopMyPage>
               padding: const EdgeInsets.all(0),
               childAspectRatio: 1,
               shrinkWrap: true, //解决gridview不能在customScrollView显示的问题
-              children:
-                  _shopMyVm.orderMenu.map((item) => _getItem(item)).toList(),
+              children: _shopMyController.orderMenu
+                  .map((item) => _getItem(item))
+                  .toList(),
             )
           ],
         ),
@@ -208,7 +290,8 @@ class _ShopMyPageState extends State<ShopMyPage>
     );
   }
 
-  Widget _buildMenu() {
+  //常用功能
+  Widget _buildFunctionMenuWidget() {
     return SliverToBoxAdapter(
       child: Card(
         child: Column(
@@ -236,8 +319,9 @@ class _ShopMyPageState extends State<ShopMyPage>
               padding: const EdgeInsets.all(0),
               childAspectRatio: 1,
               shrinkWrap: true, //解决gridview不能在customScrollView显示的问题
-              children:
-                  _shopMyVm.gridMenu.map((item) => _getItem(item)).toList(),
+              children: _shopMyController.gridMenu
+                  .map((item) => _getItem(item))
+                  .toList(),
             )
           ],
         ),
@@ -245,13 +329,14 @@ class _ShopMyPageState extends State<ShopMyPage>
     );
   }
 
+  //常用功能item
   Widget _getItem(Map<String, dynamic> item) {
     return InkWell(
       onTap: () {
         if (item['title'] == '查询') {}
       },
       child: Tab(
-        icon: Icon(item['icon'] as IconData),
+        icon: Icon(iconsMap[item['icon']] as IconData),
         child: Text(
           item['title'].toString(),
           style: const TextStyle(fontSize: 12),
@@ -260,7 +345,8 @@ class _ShopMyPageState extends State<ShopMyPage>
     );
   }
 
-  Widget _buildRecommend() {
+  //推荐商品title
+  Widget _buildRecommendTitleWidget() {
     return SliverToBoxAdapter(
       child: Container(
         alignment: Alignment.center,
@@ -273,7 +359,8 @@ class _ShopMyPageState extends State<ShopMyPage>
     );
   }
 
-  Widget _buildGrid() {
+  //推荐商品列表
+  Widget _buildRecommendGridWidget() {
     return SliverGrid(
       //Grid
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -304,55 +391,7 @@ class _ShopMyPageState extends State<ShopMyPage>
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
-      child: NotificationListener(
-          onNotification: (Notification scrollNotification) {
-            if ((scrollNotification is ScrollUpdateNotification) &&
-                (scrollNotification.depth == 0)) {
-              _onScroll(scrollNotification.metrics.pixels);
-            }
-            return true;
-          },
-          child: Stack(
-            children: <Widget>[
-              Container(
-                color: Colors.grey[200],
-              ),
-              CustomScrollView(
-                controller: _controller,
-                slivers: <Widget>[
-                  //AppBar，包含一个导航栏
-                  if (_appBarStyle == 0)
-                    _buildStyle0AppBar()
-                  else
-                    _buildStyle1AppBar(),
-
-                  SliverPadding(
-                    padding: const EdgeInsets.only(top: 10),
-                    sliver: _buildOrder(),
-                  ),
-
-                  SliverPadding(
-                    padding: const EdgeInsets.only(top: 10),
-                    sliver: _buildMenu(),
-                  ),
-
-                  SliverPadding(
-                    padding: const EdgeInsets.only(top: 10),
-                    sliver: _buildRecommend(),
-                  ),
-                  _buildGrid(),
-                ],
-              ),
-            ],
-          )),
-    );
-  }
-
+  //推荐列表 产品item
   Widget _buildProductItem(int index) {
     return InkWell(
       onTap: () {},

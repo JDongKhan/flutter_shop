@@ -6,7 +6,7 @@ import '../../../../utils/toast_utils.dart';
 import '../../../../widgets/circle_check_box.dart';
 import '../../../model/shop_info.dart';
 import '../../cart_2/shop_car2_page.dart';
-import '../vm/shop_car_view_model.dart';
+import '../controller/shop_car_controller.dart';
 
 /// @author jd
 
@@ -21,24 +21,24 @@ class ShopCarBottomWidget extends StatelessWidget {
         right: 20,
       ),
       color: Colors.white,
-      child: GetBuilder<ShopCarViewModel>(
-        builder: (viewModel) {
+      child: GetBuilder<ShopCarController>(
+        builder: (controller) {
           return Row(
             children: <Widget>[
               CircleCheckBox(
-                value: viewModel.allChecked,
+                value: controller.allChecked,
                 onChanged: (value) {
-                  for (var element in viewModel.data) {
+                  for (var element in controller.data) {
                     element.checked = value;
                   }
-                  viewModel.update();
+                  controller.update();
                 },
               ),
               const Text('全选'),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: Text('总价: ${viewModel.totalPrice.toStringAsFixed(2)}'),
+                child: Text('总价: ${controller.totalPrice.toStringAsFixed(2)}'),
               ),
               const SizedBox(
                 width: 10,
@@ -56,12 +56,12 @@ class ShopCarBottomWidget extends StatelessWidget {
                     backgroundColor: Colors.blue,
                   ),
                   onPressed: () {
-                    if (viewModel.checkedList.isEmpty) {
+                    if (controller.checkedList.isEmpty) {
                       ToastUtils.toast('请选择商品');
                       return;
                     }
                     List<ShopInfo> shopInfos =
-                        viewModel.checkedList.map((e) => e.shopInfo).toList();
+                        controller.checkedList.map((e) => e.shopInfo).toList();
                     Navigator.of(context).push(
                       CupertinoPageRoute(
                         builder: (c) => ShopCar2Page(

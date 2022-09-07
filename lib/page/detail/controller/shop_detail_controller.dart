@@ -3,7 +3,7 @@ import '../../../network/network_utils.dart';
 
 /// @author jd
 
-class ShopDetailViewModel extends BaseCommonController {
+class ShopDetailController extends BaseCommonController {
   @override
   Future loadData() async {
     NetworkResponse response =
