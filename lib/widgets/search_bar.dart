@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
  */
 
 class SearchBar extends StatefulWidget {
-  SearchBar({
+  const SearchBar({
     Key? key,
     this.onTap,
     this.onSubmitted,
@@ -21,9 +21,9 @@ class SearchBar extends StatefulWidget {
   }) : super(key: key);
 
   final ValueChanged<String>? onSubmitted;
-  GestureTapCallback? onTap;
-  String? text;
-  String? hintText;
+  final GestureTapCallback? onTap;
+  final String? text;
+  final String? hintText;
   final Color color;
   final double height;
   final EdgeInsets padding;
@@ -111,7 +111,6 @@ class _SearchBarState extends State<SearchBar> {
                   size: 18,
                 ),
                 onTap: () {
-                  widget.text = '';
                   _controller.clear();
                   setState(() {
                     _editIconShow = false;

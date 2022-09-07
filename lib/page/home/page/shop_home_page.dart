@@ -5,12 +5,10 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 import '/controller/theme_controller.dart';
 import '/utils/asset_bundle_utils.dart';
-import '../../../utils/logger_util.dart';
 import '../../../utils/screen_utils.dart';
 import '../../../widgets/common_sliver_persistent_header_delegate.dart';
+import '../../../widgets/my_search_delegate.dart';
 import '../../../widgets/search_bar.dart';
-import '../../../widgets/search_widget.dart';
-import '../../category/widget/recommend_tags_widget.dart';
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
 import '../../shop_main_page.dart';
@@ -225,18 +223,19 @@ class _ShopHomePageState extends State<ShopHomePage>
       child: SearchBar(
         text: _controller.searchText,
         onTap: () {
-          showCustomSearch(
-            context: context,
-            builder: (context, constraints, query) {
-              logger.i('开始查询数据:$query');
-              if (query.isBlank!) {
-                return RecommendTagsWidget();
-              }
-              return SearchTagList(
-                query: query,
-              );
-            },
-          );
+          showSearch(context: context, delegate: MySearchDelegate());
+          // showCustomSearch(
+          //   context: context,
+          //   builder: (context, constraints, query) {
+          //     logger.i('开始查询数据:$query');
+          //     if (query.isBlank!) {
+          //       return RecommendTagsWidget();
+          //     }
+          //     return SearchTagList(
+          //       query: query,
+          //     );
+          //   },
+          // );
         },
       ),
     );
