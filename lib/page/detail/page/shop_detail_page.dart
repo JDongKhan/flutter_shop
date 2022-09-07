@@ -20,7 +20,7 @@ class ShopDetailPage extends StatefulWidget {
 class _ShopDetailPageState extends State<ShopDetailPage> {
   final ShopDetailNavigatorController _controller =
       ShopDetailNavigatorController();
-  ShopDetailController controller = Get.put(ShopDetailController());
+  ShopDetailController shopDetailController = Get.put(ShopDetailController());
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(

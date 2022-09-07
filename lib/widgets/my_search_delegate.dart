@@ -219,6 +219,7 @@ class _SearchItemState extends State<SearchItem> {
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
     return InkWell(
       onTap: () {},
+      borderRadius: BorderRadius.circular(10),
 
       /// 历史搜索VIEW, 允许对搜索词进行删除操作
       child: widget.isHisSearch

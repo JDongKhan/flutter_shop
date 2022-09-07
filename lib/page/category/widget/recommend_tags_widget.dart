@@ -9,7 +9,11 @@ import '../../../widgets/no_splash_factory.dart';
 ///@Author jd
 
 class RecommendTagsWidget extends StatefulWidget {
-  const RecommendTagsWidget({Key? key}) : super(key: key);
+  const RecommendTagsWidget({
+    Key? key,
+    this.onClick,
+  }) : super(key: key);
+  final ValueChanged? onClick;
 
   @override
   State<RecommendTagsWidget> createState() => _RecommendTagsWidgetState();
@@ -97,7 +101,9 @@ class _RecommendTagsWidgetState extends State<RecommendTagsWidget> {
   //生成Popmenu数据
   Widget _flowMenuItem(String text) {
     return _buildCustomButton(
-      onPressed: () {},
+      onPressed: () {
+        widget.onClick?.call(text);
+      },
       child: Text(
         text,
         style: const TextStyle(

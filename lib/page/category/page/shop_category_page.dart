@@ -57,7 +57,16 @@ class _ShopCategoryPageState extends State<ShopCategoryPage>
           builder: (context, constraints, query) {
             logger.i('开始查询数据:$query');
             if (query.isBlank!) {
-              return RecommendTagsWidget();
+              return RecommendTagsWidget(
+                onClick: (title) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return ShopSearchResultPage(
+                      query: title,
+                    );
+                  }));
+                },
+              );
             }
             return SearchTagList(
               query: query,
@@ -175,7 +184,9 @@ class _ShopCategoryPageState extends State<ShopCategoryPage>
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
-                  return const ShopSearchResultPage();
+                  return ShopSearchResultPage(
+                    query: item.name,
+                  );
                 }));
               },
               child: AutoSizeText(

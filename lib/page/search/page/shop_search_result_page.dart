@@ -9,7 +9,8 @@ import '../widget/shop_search_filter_widget.dart';
 
 /// @author jd
 class ShopSearchResultPage extends StatefulWidget {
-  const ShopSearchResultPage({Key? key}) : super(key: key);
+  const ShopSearchResultPage({Key? key, this.query}) : super(key: key);
+  final String? query;
 
   @override
   State createState() => _ShopSearchResultPageState();
