@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/logger_util.dart';
 import '../../../widgets/search_bar.dart';
+import '../../../widgets/search_widget.dart';
 import '../../search/page/shop_search_result_page.dart';
 import '../controller/shop_category_controller.dart';
 import '../model/category.dart';
+import '../widget/recommend_tags_widget.dart';
 
 /// @author jd
 
@@ -48,6 +51,20 @@ class _ShopCategoryPageState extends State<ShopCategoryPage>
   Widget _buildSearch() {
     return SearchBar(
       color: Colors.grey[100]!,
+      onTap: () {
+        showCustomSearch(
+          context: context,
+          builder: (context, constraints, query) {
+            logger.i('开始查询数据:$query');
+            if (query.isBlank!) {
+              return RecommendTagsWidget();
+            }
+            return SearchTagList(
+              query: query,
+            );
+          },
+        );
+      },
     );
   }
 
