@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 
 import 'cart/cart_1/page/shop_car_page.dart';
@@ -43,6 +44,7 @@ class _ShopMainPageState extends State<ShopMainPage>
     _tabs.add({
       'title': '购物车',
       'icon': Icons.camera,
+      'count': 99,
       'page': const ShopCarPage(),
     });
 
@@ -93,14 +95,29 @@ class _ShopMainPageState extends State<ShopMainPage>
           ? null
           : BottomNavigationBar(
               // 底部导航
-              items: _tabs
-                  .map(
-                    (e) => BottomNavigationBarItem(
-                      icon: Icon(e['icon'] as IconData),
+              items: _tabs.map(
+                (e) {
+                  dynamic count = e['count'];
+                  if (count != null) {
+                    return BottomNavigationBarItem(
+                      icon: Badge(
+                        position: const BadgePosition(start: 15, bottom: 10),
+                        badgeContent: Text(
+                          '$count',
+                          style:
+                              const TextStyle(color: Colors.white, fontSize: 9),
+                        ),
+                        child: Icon(e['icon'] as IconData),
+                      ),
                       label: e['title'].toString(),
-                    ),
-                  )
-                  .toList(),
+                    );
+                  }
+                  return BottomNavigationBarItem(
+                    icon: Icon(e['icon'] as IconData),
+                    label: e['title'].toString(),
+                  );
+                },
+              ).toList(),
               currentIndex: _selectedIndex,
               type: BottomNavigationBarType.fixed,
               selectedItemColor: Colors.blue,
