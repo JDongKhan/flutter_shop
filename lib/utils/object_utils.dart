@@ -1,5 +1,29 @@
 /// @author jd
+
+/// Returns [true] if [s] is either null, empty or is solely made of whitespace
+/// characters (as defined by [String.trim]).
+bool isBlank(String? s) => s == null || s.trim().isEmpty;
+
+/// Returns [true] if [s] is neither null, empty nor is solely made of whitespace
+/// characters.
 ///
+/// See also:
+///
+///  * [isBlank]
+bool isNotBlank(String? s) => s != null && s.trim().isNotEmpty;
+
+/// Returns [true] if [s] is either null or empty.
+bool isEmpty(String? s) => s == null || s.isEmpty;
+
+/// Returns [true] if [s] is a not empty string.
+bool isNotEmpty(String? s) => s != null && s.isNotEmpty;
+
+/// Returns [true] if [s] is either null or empty.
+bool isArrayEmpty(List? s) => s == null || s.isEmpty;
+
+/// Returns [true] if [s] is a not empty string.
+bool isArrayNotEmpty(List? s) => s != null && s.isNotEmpty;
+
 /// Object Util.
 class ObjectUtils {
   /// 判断对象是否为null

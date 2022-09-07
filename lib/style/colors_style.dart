@@ -23,6 +23,7 @@ class ColorsStyle {
   static const Color green_62 = Color(0xff626262); //<!--204-->
   static const Color green_e5 = Color(0xffe5e5e5); //<!--204-->
 
+  static const Color color_121E34 = Color(0xff121E34);
 }
 
 Map<String, Color> circleAvatarMap = {
