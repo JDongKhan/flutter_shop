@@ -76,7 +76,7 @@ class _ShopCarPageState extends State<ShopCarPage> {
         builder: (c) {
           return EasyRefresh(
             onRefresh: c.onRefresh,
-            onLoad: c.onLoad,
+            // onLoad: c.onLoad,
             child: ListView.builder(
               itemCount: _viewModel.data.length,
               itemBuilder: (context, int index) {
