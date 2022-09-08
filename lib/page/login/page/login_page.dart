@@ -1,76 +1,50 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
-import 'package:flutter_shop/utils/toast_utils.dart';
+import 'dart:ui';
 
-import '../../../utils/screen_utils.dart';
-import '../../../widgets/webview/web_page.dart';
-import '../widget/logo_widget.dart';
-import 'register_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_shop/controller/user_info_controller.dart';
+import 'package:flutter_shop/page/login/page/register_page.dart';
+import 'package:get/get.dart';
+
+import '../widget/bobble_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final Color redColor = const Color.fromRGBO(220, 44, 31, 1);
-
-  bool isAgree = false;
+class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
+  late AnimationController _fadeAnimationController;
 
   @override
   void initState() {
+    _fadeAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1800));
+    _fadeAnimationController.forward();
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
-      child: Scaffold(
-        body: Container(
-          color: redColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 50),
-              LogoWidget(),
-              const SizedBox(height: 50),
-              GestureDetector(
-                onTap: () {
-                  if (!isAgree) {
-                    showHint();
-                  } else {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder: (_) => RegisterPage(),
-                        ));
-                  }
-                },
-                child: buildBtn('立即登录', Colors.white, redColor),
-              ),
-              SizedBox(height: get_Width(40)),
-              GestureDetector(
-                onTap: () {
-                  if (!isAgree) {
-                    showHint();
-                  } else {
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: buildBtn('立即体验', redColor, Colors.white),
-              ),
-              SizedBox(height: get_Width(50)),
+  void dispose() {
+    _fadeAnimationController.dispose();
+    super.dispose();
+  }
 
-              ///third
-              thirdLogin(),
-              SizedBox(height: get_Width(50)),
-              contractWidget(),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: BobbleWidget(
+          child: Stack(
+            children: [
+              //  第四部分 顶部的稳步
+              buildTopText(),
+              //  第五部分 输入区域
+              buildBottomColumn()
             ],
           ),
         ),
@@ -78,142 +52,152 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void showHint() {
-    ToastUtils.toast('请勾选下方的同意');
-  }
-
-  Widget contractWidget() {
-    return Container(
-      height: 30,
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              isAgree = !isAgree;
-              setState(() {});
-            },
-            child: Row(
-              children: <Widget>[
-                checkWidget(),
-                const Text(
-                  '  同意',
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                )
-              ],
-            ),
-          ),
-          Text.rich(
-            TextSpan(
-              text: '登录即代表同意并阅读',
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white,
-              ),
-              children: [
-                TextSpan(
-                  text: '《用户协议》',
-                  style: const TextStyle(
-                    color: Colors.blue,
-                    fontSize: 12,
-                  ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const WebPage(
-                            title: '《用户协议》',
-                            url: 'https://baidu.com',
-                          ),
-                        ),
-                      );
-                    },
-                ),
-                const TextSpan(text: '和'),
-                TextSpan(
-                  text: '《隐私政策》',
-                  style: const TextStyle(
-                    color: Colors.blue,
-                    fontSize: 12,
-                  ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => const WebPage(
-                            title: '《隐私政策》',
-                            url: 'assets/data/my.html',
-                          ),
-                        ),
-                      );
-                    },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget checkWidget() {
-    return isAgree
-        ? const Icon(
-            Icons.check,
-            color: Colors.white,
-            size: 22,
-          )
-        : const Icon(
-            Icons.check_box_outline_blank,
-            color: Colors.grey,
-            size: 22,
-          );
-  }
-
-  Widget thirdLogin() {
-    return Container(
-      height: 100,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Image.asset(
-            AssetBundleUtils.getIconPath('wechat'),
-            width: get_Width(80),
-            height: get_Width(80),
-          ),
-          Image.asset(
-            AssetBundleUtils.getIconPath('qq'),
-            width: get_Width(80),
-            height: get_Width(80),
-          ),
-          Image.asset(
-            AssetBundleUtils.getIconPath('weibo'),
-            width: get_Width(80),
-            height: get_Width(80),
-          ),
-          Image.asset(
-            AssetBundleUtils.getIconPath('logo'),
-            width: get_Width(80),
-            height: get_Width(80),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildBtn(String title, Color bgColor, Color textColor) {
-    return Container(
-      width: 400,
-      height: 40,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: bgColor,
-          border: Border.all(color: Colors.white, width: get_Width(1)),
-          borderRadius: BorderRadius.circular(get_Height(20))),
+  Widget buildTopText() {
+    return const Positioned(
+      left: 0,
+      right: 0,
+      top: 160,
       child: Text(
-        title,
-        style: TextStyle(fontSize: get_Sp(18), color: textColor),
+        '登录',
+        style: TextStyle(fontSize: 44, color: Colors.deepPurple),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget buildBottomColumn() {
+    return Positioned(
+      left: 44,
+      right: 44,
+      bottom: 84,
+      child: FadeTransition(
+        opacity: _fadeAnimationController,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            //  自定义文本输入框
+            const TextFieldWidget(
+              obscureText: false,
+              labelText: "账号",
+              prefixIconData: Icons.phone_android_outlined,
+            ),
+            const SizedBox(
+              height: 14,
+            ),
+            const TextFieldWidget(
+              obscureText: true,
+              labelText: "密码",
+              prefixIconData: Icons.lock_outline,
+              suffixIconData: Icons.visibility,
+            ),
+            const SizedBox(
+              height: 14,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    '返回',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(fontSize: 14, color: Colors.blue),
+                  ),
+                ),
+                const Text(
+                  '忘记密码',
+                  textAlign: TextAlign.end,
+                  style: TextStyle(fontSize: 14, color: Colors.blue),
+                ),
+              ],
+            ),
+
+            const SizedBox(
+              height: 14,
+            ),
+
+            SizedBox(
+              height: 42,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  UserInfoController userInfoController =
+                      Get.find<UserInfoController>();
+                  userInfoController.login();
+                },
+                child: const Text('登录'),
+              ),
+            ),
+
+            const SizedBox(
+              height: 12,
+            ),
+
+            SizedBox(
+              height: 42,
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => RegisterPage(),
+                    ),
+                  );
+                },
+                child: const Text('注册'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TextFieldWidget extends StatelessWidget {
+  final Function(String value)? onChanged;
+  final bool obscureText;
+  final String? labelText;
+  final IconData? prefixIconData;
+  final IconData? suffixIconData;
+
+  const TextFieldWidget({
+    Key? key,
+    this.onChanged,
+    this.obscureText = false,
+    this.labelText,
+    this.prefixIconData,
+    this.suffixIconData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      onChanged: onChanged,
+      obscureText: obscureText,
+      style: TextStyle(color: Colors.blue, fontSize: 14.0),
+      //  输入框可用时边框配置
+      decoration: InputDecoration(
+        filled: true,
+        labelText: labelText,
+        // 去掉默认的下划线
+        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide.none),
+        // 获取输入焦点时的边框样式
+        focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: Colors.blue)),
+        prefixIcon: Icon(
+          prefixIconData,
+          size: 18,
+          color: Colors.blue,
+        ),
+        suffixIcon: Icon(
+          suffixIconData,
+          size: 18,
+          color: Colors.blue,
+        ),
       ),
     );
   }

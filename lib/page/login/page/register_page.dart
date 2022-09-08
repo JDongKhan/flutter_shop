@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_shop/utils/toast_utils.dart';
+import 'package:get/get.dart';
 
 import '../../../utils/screen_utils.dart';
 import '../vm/register_vm.dart';
@@ -14,7 +15,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  RegisterController registerController = RegisterController();
+  RegisterController registerController = Get.put(RegisterController());
 
   late double horPadding;
   @override
@@ -28,40 +29,46 @@ class _RegisterPageState extends State<RegisterPage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        body: Container(
-          padding: EdgeInsets.symmetric(horizontal: horPadding),
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.only(left: 0, top: 50),
-                child: GestureDetector(
-                  onTap: clickBackBtn,
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                    size: get_Width(20),
+        body: GetBuilder<RegisterController>(builder: (controller) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: horPadding),
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(left: 0, top: 50),
+                  child: GestureDetector(
+                    onTap: clickBackBtn,
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: get_Width(20),
+                    ),
                   ),
                 ),
-              ),
 
-              appBar(),
+                appBar(),
 
-              ///input area
-              inputArea(),
-              SizedBox(height: get_Width(100)),
+                ///input area
+                inputArea(),
 
-              ///btn
-              GestureDetector(
-                onTap: clickBtn,
-                child: buildBtn(registerController.getBtnText(),
-                    registerController.getBgColor(), Colors.white),
-              )
-            ],
-          ),
-        ),
+                const Spacer(),
+
+                ///btn
+                Container(
+                  margin: const EdgeInsets.only(bottom: 60),
+                  child: GestureDetector(
+                    onTap: clickBtn,
+                    child: buildBtn(registerController.getBtnText(),
+                        registerController.getBgColor(), Colors.white),
+                  ),
+                )
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
@@ -202,13 +209,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget appBar() {
     return Container(
-      height: 260,
+      height: 160,
       alignment: Alignment.center,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            '手机号登录',
+            '手机号注册',
             style: TextStyle(color: Colors.black, fontSize: get_Sp(22)),
           ),
         ],

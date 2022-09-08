@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/controller/user_info_controller.dart';
-import 'package:flutter_shop/utils/navigation_util.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/toast_utils.dart';
@@ -65,7 +64,7 @@ class ShopCarBottomWidget extends StatelessWidget {
                     UserInfoController userController =
                         Get.find<UserInfoController>();
                     if (!userController.isLogin) {
-                      NavigationUtil.pushNamed('/login');
+                      UserInfoController.testLogin(context);
                       return;
                     }
 

@@ -2,11 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 import '/page/splash/splash_page.dart';
 import '../page/error/not_find_page.dart';
-import '../page/login/page/login_page.dart';
 
 final Map<String, WidgetBuilder> _routes = <String, WidgetBuilder>{
   '/': (BuildContext context) => SplashPage(),
-  '/login': (BuildContext context) => const LoginPage(),
 };
 
 Map<String, WidgetBuilder> get routes => _routes;

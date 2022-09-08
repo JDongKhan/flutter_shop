@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/network/cookie_manager.dart';
+import 'package:flutter_shop/page/login/page/login_home_page.dart';
 import 'package:get/get.dart';
 
 import '../network/network_utils.dart';
-import '../page/login/page/login_page.dart';
 import '../service/environment.dart';
 
 ///@Description TODO
@@ -23,7 +23,7 @@ class UserInfoController extends ChangeNotifier {
       enableDrag: false,
       isScrollControlled: true,
       context: context,
-      builder: (BuildContext c) => LoginPage(),
+      builder: (BuildContext c) => const LoginHomePage(),
     );
   }
 

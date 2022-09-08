@@ -26,7 +26,7 @@ class _LogoState extends State<LogoWidget> with SingleTickerProviderStateMixin {
 
     list.add(logo);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // initTimer();
+      initTimer();
     });
   }
 
