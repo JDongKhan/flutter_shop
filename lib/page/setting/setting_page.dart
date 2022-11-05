@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '/utils/asset_bundle_utils.dart';
-import '/utils/toast_utils.dart';
 import '../../controller/theme_controller.dart';
+import '../../controller/theme_widget.dart';
 import '../../controller/user_info_controller.dart';
 import '../../style/styles.dart';
+import '../../utils/asset_bundle_utils.dart';
 import '../../utils/navigation_util.dart';
 import '../../utils/path_utils.dart';
+import '../../utils/toast_utils.dart';
 import 'developer/developer_setting_page.dart';
 import 'feedback/feedback_page.dart';
 import 'message_setting_page.dart';
@@ -23,6 +24,8 @@ import 'privacy_setting_page.dart';
  */
 
 class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
+
   @override
   State<StatefulWidget> createState() => _SettingPageState();
 }
@@ -31,7 +34,6 @@ class _SettingPageState extends State {
   String _cacheSizeStr = "";
 
   UserInfoController userInfoController = Get.find<UserInfoController>();
-  ThemeController themeController = Get.find<ThemeController>();
 
   @override
   void initState() {
@@ -68,7 +70,7 @@ class _SettingPageState extends State {
               padding: EdgeInsets.only(top: 20),
             ),
             _buildCell('意见反馈', onTap: () {
-              NavigationUtil.push(FeedbackPage());
+              NavigationUtil.push(const FeedbackPage());
             }),
             _buildCell2(
               '锁定开关',
@@ -154,20 +156,18 @@ class _SettingPageState extends State {
           color: Colors.white,
           child: InkWell(
             onTap: () {},
-            child: Container(
-              child: ListTile(
-                title: Text(title),
-                trailing: rightWidget == null
-                    ? const Icon(Icons.chevron_right)
-                    : Container(
-                        alignment: Alignment.centerRight,
-                        width: 80,
-                        child: rightWidget,
-                      ),
-                onTap: () {
-                  onTap?.call();
-                },
-              ),
+            child: ListTile(
+              title: Text(title),
+              trailing: rightWidget == null
+                  ? const Icon(Icons.chevron_right)
+                  : Container(
+                      alignment: Alignment.centerRight,
+                      width: 80,
+                      child: rightWidget,
+                    ),
+              onTap: () {
+                onTap?.call();
+              },
             ),
           ),
         ),
@@ -235,11 +235,11 @@ class _SettingPageState extends State {
             title: const Text('提示'),
             content: const Text('您确定要退出登录？?'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: const Text('取消'),
                 onPressed: () => Navigator.of(context).pop(), //关闭对话框
               ),
-              FlatButton(
+              TextButton(
                 child: const Text('确定'),
                 onPressed: () {
                   userInfoController.logout();
@@ -253,7 +253,7 @@ class _SettingPageState extends State {
 
   /*** 清除缓存 **/
   ///加载缓存
-  Future<Null> loadCache() async {
+  Future<void> loadCache() async {
     try {
       Directory? tempDir = await PathUtils.getAppTemporaryDirectory();
       double value = await _getTotalSizeOfFilesInDir(tempDir);
@@ -261,12 +261,12 @@ class _SettingPageState extends State {
           //打印每个缓存文件的路径
         debugPrint(file.path);
       });*/
-      debugPrint('临时目录大小: ' + value.toString());
+      debugPrint('临时目录大小: $value');
       setState(() {
         _cacheSizeStr = _renderSize(value);
       });
     } catch (err) {
-      print(err);
+      debugPrint(err.toString());
     }
   }
 
@@ -283,14 +283,14 @@ class _SettingPageState extends State {
       if (file is Directory) {
         final List<FileSystemEntity> children = file.listSync();
         double total = 0;
-        if (children != null)
-          for (final FileSystemEntity child in children)
-            total += await _getTotalSizeOfFilesInDir(child);
+        for (final FileSystemEntity child in children) {
+          total += await _getTotalSizeOfFilesInDir(child);
+        }
         return total;
       }
       return 0;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return 0;
     }
   }
@@ -305,9 +305,9 @@ class _SettingPageState extends State {
       //删除缓存目录
       await delDir(tempDir);
       await loadCache();
-      ToastUtils.toast('清除缓存成功');
+      ToastUtils.toast("清除缓存成功");
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       ToastUtils.toast('清除缓存失败');
     } finally {
       //此处隐藏加载loading
@@ -315,7 +315,7 @@ class _SettingPageState extends State {
   }
 
   ///递归方式删除目录
-  Future<Null> delDir(FileSystemEntity file) async {
+  Future<void> delDir(FileSystemEntity file) async {
     try {
       if (file is Directory) {
         final List<FileSystemEntity> children = file.listSync();
@@ -330,7 +330,7 @@ class _SettingPageState extends State {
   }
 
   ///格式化文件大小
-  String _renderSize(double value) {
+  String _renderSize(double? value) {
     if (null == value) {
       return '0';
     }
@@ -340,7 +340,7 @@ class _SettingPageState extends State {
       ..add('M')
       ..add('G');
     int index = 0;
-    while (value > 1024) {
+    while (value! > 1024) {
       index++;
       value = value / 1024;
     }
@@ -350,11 +350,11 @@ class _SettingPageState extends State {
 }
 
 class SettingThemeWidget extends StatelessWidget {
-  const SettingThemeWidget();
+  const SettingThemeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ThemeController themeController = Get.find<ThemeController>();
+    ThemeController themeController = ThemeNotifierProviderWidget.of<ThemeController>(context)  ?? ThemeController();
     return Container(
       color: Colors.white,
       child: ExpansionTile(
@@ -374,7 +374,7 @@ class SettingThemeWidget extends StatelessWidget {
                         // var brightness = Theme.of(context).brightness;
                         themeController.switchTheme(color: color);
                       },
-                      child: Container(
+                      child: const SizedBox(
                         width: 40,
                         height: 40,
                       ),

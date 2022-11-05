@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class PrimaryScrollContainer extends StatefulWidget {
   final Widget child;
 
-  PrimaryScrollContainer(
+  const PrimaryScrollContainer(
     GlobalKey<PrimaryScrollContainerState> key,
     this.child,
   ) : super(key: key);
@@ -36,8 +36,8 @@ class PrimaryScrollContainerState extends State<PrimaryScrollContainer> {
   @override
   Widget build(BuildContext context) {
     return PrimaryScrollControllerWrapper(
-      child: widget.child,
       scrollController: scrollController,
+      child: widget.child,
     );
   }
 
@@ -46,25 +46,21 @@ class PrimaryScrollContainerState extends State<PrimaryScrollContainer> {
   }
 }
 
-class PrimaryScrollControllerWrapper extends InheritedWidget
-    implements PrimaryScrollController {
-  final ScrollController scrollController;
+class PrimaryScrollControllerWrapper extends PrimaryScrollController {
 
   const PrimaryScrollControllerWrapper({
     Key? key,
     required Widget child,
-    required this.scrollController,
-  }) : super(key: key, child: child);
+    required ScrollController scrollController,
+  }) : super(key: key, child: child,controller: scrollController);
 
   @override
   get runtimeType => PrimaryScrollController;
 
   @override
-  get controller => scrollController;
-
-  @override
   bool updateShouldNotify(PrimaryScrollControllerWrapper oldWidget) =>
       controller != oldWidget.controller;
+
 }
 
 //代理

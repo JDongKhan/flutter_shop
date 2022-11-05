@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/utils/screen_utils.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
-import '/controller/theme_controller.dart';
-import '/utils/asset_bundle_utils.dart';
-import '../../../utils/screen_utils.dart';
+import '../../../controller/theme_widget.dart';
+import '../../../utils/asset_bundle_utils.dart';
 import '../../../widgets/common_sliver_persistent_header_delegate.dart';
 import '../../../widgets/my_search_delegate.dart';
 import '../../../widgets/search_bar.dart';
+import '/controller/theme_controller.dart';
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
 import '../../shop_main_page.dart';
@@ -29,7 +30,6 @@ class ShopHomePage extends StatefulWidget {
 class _ShopHomePageState extends State<ShopHomePage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   final ShopHomeController _controller = Get.put(ShopHomeController());
-  final ThemeController _themeController = Get.find<ThemeController>();
   TabController? _tabController;
   double _offset = 0;
   final ListBottomMenuController _bottomMenuController =
@@ -44,6 +44,7 @@ class _ShopHomePageState extends State<ShopHomePage>
 
   @override
   Widget build(BuildContext context) {
+    ThemeController themeController = ThemeNotifierProviderWidget.of<ThemeController>(context)  ?? ThemeController();
     return Stack(
       children: [
         //底部菜单
@@ -62,7 +63,7 @@ class _ShopHomePageState extends State<ShopHomePage>
             child: GetBuilder<ShopHomeController>(builder: (controller) {
               _tabController =
                   TabController(vsync: this, length: controller.tabs.length);
-              return _buildScrollWidget(controller);
+              return _buildScrollWidget(controller,themeController);
             }),
           ),
         ),
@@ -70,7 +71,7 @@ class _ShopHomePageState extends State<ShopHomePage>
     );
   }
 
-  Widget _buildScrollWidget(ShopHomeController controller) {
+  Widget _buildScrollWidget(ShopHomeController controller,ThemeController themeController) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         List<Widget> headerSlivers = [];
@@ -87,11 +88,11 @@ class _ShopHomePageState extends State<ShopHomePage>
 
             ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
             sliver: ShopHomeAppBar(
-              backgroundColor: _themeController.navigationBackgroundColor,
+              backgroundColor: themeController.navigationBackgroundColor,
               title: Text(
                 '生产有限公司',
                 style: TextStyle(
-                  color: _themeController.navigationTextColor,
+                  color: themeController.navigationTextColor,
                   fontSize: 18,
                 ),
               ),
@@ -133,7 +134,7 @@ class _ShopHomePageState extends State<ShopHomePage>
         );
 
         //轮播图
-        if (_controller.banners.isNotEmpty) {
+        if (controller.banners.isNotEmpty) {
           headerSlivers.add(SliverToBoxAdapter(child: _buildSwiper()));
         }
         //菜单

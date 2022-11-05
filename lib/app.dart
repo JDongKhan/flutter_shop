@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '/controller/theme_controller.dart';
 import '/controller/user_info_controller.dart';
 import '/utils/navigation_util.dart';
+import 'controller/theme_widget.dart';
 import 'routes/routes.dart';
 
 ///@Description TODO
@@ -46,6 +47,14 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return ThemeNotifierProviderWidget(data: ThemeController(),builder:<ThemeController>(c,controller) {
+      return buildApp(controller);
+    },);
+  }
+
+
+  Widget buildApp(ThemeController themeController){
+
     debugPaintSizeEnabled = themeController.debugPaintSizeEnabled; //显示边界布局
     debugPaintPointersEnabled =
         themeController.debugPaintPointersEnabled; //点击效果
@@ -61,9 +70,9 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: 'Flutter Demo',
           checkerboardRasterCacheImages:
-              themeController.checkerboardRasterCacheImages,
+          themeController.checkerboardRasterCacheImages,
           checkerboardOffscreenLayers:
-              themeController.checkerboardOffscreenLayers,
+          themeController.checkerboardOffscreenLayers,
           navigatorKey: NavigationUtil.getInstance().navigatorKey,
           theme: ThemeData(
             //深色还是浅色

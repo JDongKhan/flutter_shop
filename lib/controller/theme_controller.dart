@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 /// @author jd
 
-class ThemeController extends GetxController {
+class ThemeController extends ChangeNotifier {
   Color navigationBackgroundColor = const Color(0xFF0000ff);
   Color navigationTextColor = const Color(0xFFFFFFFF);
 
@@ -23,42 +23,42 @@ class ThemeController extends GetxController {
   void switchTheme({MaterialColor? color}) {
     _themeColor = color ?? _themeColor;
     navigationBackgroundColor = _themeColor!;
-    update();
+    notifyListeners();
   }
 
   void switchPerformanceOverlay(bool value) {
     showPerformanceOverlay = value;
-    update();
+    notifyListeners();
   }
 
   void switchCheckerboardRasterCacheImages(bool value) {
     checkerboardRasterCacheImages = value;
-    update();
+    notifyListeners();
   }
 
   void switchCheckerboardOffscreenLayers(bool value) {
     checkerboardOffscreenLayers = value;
-    update();
+    notifyListeners();
   }
 
   void switchDebugPaintSizeEnabled(bool value) {
     debugPaintSizeEnabled = value;
-    update();
+    notifyListeners();
   }
 
   void switchDebugPaintPointersEnabled(bool value) {
     debugPaintPointersEnabled = value;
-    update();
+    notifyListeners();
   }
 
   void switchDebugPaintLayerBordersEnabled(bool value) {
     debugPaintLayerBordersEnabled = value;
-    update();
+    notifyListeners();
   }
 
   void switchDebugRepaintRainbowEnabled(bool value) {
     debugRepaintRainbowEnabled = value;
-    update();
+    notifyListeners();
   }
 
   /// 随机一个主题色彩
