@@ -7,11 +7,11 @@ import '../../model/shop_info.dart';
 
 /// @author jd
 class ShopHomeProductListPage1 extends StatefulWidget {
-  const ShopHomeProductListPage1(
-      {Key? key, this.keyword, this.parsentController})
-      : super(key: key);
+  const ShopHomeProductListPage1({
+    Key? key,
+    this.keyword,
+  }) : super(key: key);
   final String? keyword;
-  final ScrollController? parsentController;
   @override
   State createState() => _ShopHomeProductListPage1State();
 }
@@ -52,6 +52,26 @@ class _ShopHomeProductListPage1State extends State<ShopHomeProductListPage1>
         shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
         price: 48.80,
       ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_3'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_4'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_3'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_4'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
     ]);
   }
 
@@ -61,6 +81,7 @@ class _ShopHomeProductListPage1State extends State<ShopHomeProductListPage1>
       color: Colors.grey[100],
       child: _refreshWidget(
         child: GridView.builder(
+          key: PageStorageKey<String>(widget.keyword ?? ''),
           physics: const CustomBouncingScrollPhysics(),
           padding: const EdgeInsets.all(10.0),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

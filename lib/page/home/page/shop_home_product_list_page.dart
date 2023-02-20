@@ -52,6 +52,26 @@ class _ShopHomeProductListPageState extends State<ShopHomeProductListPage>
         shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
         price: 48.80,
       ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_3'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_4'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_3'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
+      ShopInfo(
+        icon: AssetBundleUtils.getImgPath('shop_4'),
+        shopName: '潘婷染烫修护润发精华素750ml修复烫染损伤受损干枯发质',
+        price: 48.80,
+      ),
     ]);
   }
 
@@ -61,6 +81,7 @@ class _ShopHomeProductListPageState extends State<ShopHomeProductListPage>
       color: Colors.grey[100],
       child: _refreshWidget(
         child: WaterfallFlow.builder(
+          key: PageStorageKey<String>(widget.keyword ?? ''),
           itemCount: _recommendList.length * 2,
           gridDelegate: SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
             collectGarbage: (List<int> garbages) {

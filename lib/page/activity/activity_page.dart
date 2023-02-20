@@ -8,6 +8,9 @@ class ActivityPage extends StatefulWidget {
   State<ActivityPage> createState() => _ActivityPageState();
 }
 
+/**
+ * 活动
+ */
 class _ActivityPageState extends State<ActivityPage> {
   final data = {
     "精选商品": [

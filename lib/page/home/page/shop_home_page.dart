@@ -20,6 +20,7 @@ import 'shop_home_product_list_page_1.dart';
 
 /// @author jd
 
+@Deprecated("废弃")
 class ShopHomePage extends StatefulWidget {
   @override
   _ShopHomePageState createState() => _ShopHomePageState();
