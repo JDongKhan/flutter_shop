@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../widgets/webview/web_page.dart';
+import '../route.dart';
 
 /// @author jd
 
@@ -14,114 +10,40 @@ class NavigationUtil {
     return _instance = _instance ?? NavigationUtil._internal();
   }
 
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-  Future<dynamic>? _pushNamed(
+  static void push(
     String routeName, {
-    Object? arguments,
+    Object? extra,
   }) {
-    return navigatorKey.currentState
-        ?.pushNamed(routeName, arguments: arguments);
+    routes.push(routeName, extra: extra);
   }
 
-  Future<dynamic>? _push(Widget page) {
-    return navigatorKey.currentState
-        ?.push(CupertinoPageRoute<dynamic>(builder: (BuildContext context) {
-      return page;
-    }));
-  }
-
-  Future<dynamic>? _pushReplacementNamed(
+  static void go(
     String routeName, {
-    Object? arguments,
+    Object? extra,
   }) {
-    return navigatorKey.currentState?.pushReplacementNamed(routeName);
+    routes.go(routeName, extra: extra);
   }
 
-  Future<dynamic>? _pushReplacement(Widget page) {
-    return navigatorKey.currentState?.pushReplacement(
-        CupertinoPageRoute<dynamic>(builder: (BuildContext context) {
-      return page;
-    }));
+  static void pushReplacement(String routeName, {Object? extra}) {
+    routes.pushReplacement(routeName, extra: extra);
   }
 
-  void _goBack() {
-    navigatorKey.currentState?.pop();
+  static void back() {
+    routes.pop();
   }
 
-  void _popToRoot() {
-    navigatorKey.currentState?.popUntil(
-      (Route<dynamic> route) => route.isFirst,
-    );
-    //route返回的是false则从会路由队列清除。
-    // navigatorKey.currentState.pushAndRemoveUntil(
-    //   CupertinoPageRoute<dynamic>(
-    //     builder: (_) => JDScaffoldPage(),
-    //   ),
-    //   (route) => false,
-    // );
-  }
-
-  void _pushWeb(
-      {String? title, String? titleId, String? url, bool isHome: false}) {
-    if (url == null || url.isEmpty) return;
-    if (url.endsWith(".apk")) {
-      launchInBrowser(url, title: title ?? titleId);
-    } else {
-      navigatorKey.currentState?.push(
-        CupertinoPageRoute<void>(
-          builder: (BuildContext ctx) => WebPage(
-            title: title,
-            url: url,
-          ),
-        ),
-      );
-    }
-  }
-
-  static Future<dynamic>? pushNamed(
-    String routeName, {
-    Object? arguments,
+  static void pushWebView({
+    String title = '',
+    required String url,
   }) {
-    return NavigationUtil.getInstance()
-        ._pushNamed(routeName, arguments: arguments);
-  }
-
-  static Future<dynamic>? push(Widget page) {
-    return NavigationUtil.getInstance()._push(page);
-  }
-
-  static Future<dynamic>? pushReplacementNamed(
-    String routeName, {
-    Object? arguments,
-  }) {
-    return NavigationUtil.getInstance()
-        ._pushReplacementNamed(routeName, arguments: arguments);
-  }
-
-  static Future<dynamic>? pushReplacement(Widget page) {
-    return NavigationUtil.getInstance()._pushReplacement(page);
-  }
-
-  static void goBack() {
-    NavigationUtil.getInstance()._goBack();
-  }
-
-  static void popToRoot() {
-    NavigationUtil.getInstance()._popToRoot();
-  }
-
-  static void pushWebView(
-      {String? title, String? titleId, String? url, bool isHome: false}) {
-    NavigationUtil.getInstance()
-        ._pushWeb(title: title, titleId: titleId, url: url, isHome: isHome);
+    routes.push("/web?title=$title&url=$url");
   }
 
   static Future<dynamic> launchInBrowser(String url, {String? title}) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      return await launchUrl(Uri.parse(url));
-    } else {
-      throw 'Could not launch $url';
-    }
+    // if (await canLaunchUrl(Uri.parse(url))) {
+    //   return await launchUrl(Uri.parse(url));
+    // } else {
+    //   throw 'Could not launch $url';
+    // }
   }
 }

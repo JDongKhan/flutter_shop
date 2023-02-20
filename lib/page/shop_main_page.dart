@@ -101,7 +101,7 @@ class _ShopMainPageState extends State<ShopMainPage>
                   if (count != null) {
                     return BottomNavigationBarItem(
                       icon: Badge(
-                        position: const BadgePosition(start: 15, bottom: 10),
+                        position: BadgePosition.custom(start: 15, bottom: 10),
                         badgeContent: Text(
                           '$count',
                           style:

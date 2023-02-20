@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/foundation.dart';
 
 import 'base_list_controller.dart';
@@ -16,7 +17,7 @@ abstract class BaseRefreshListController<E> extends BaseListController<E> {
   //刷新逻辑
 
   ///刷新
-  Future onRefresh() async {
+  Future<IndicatorResult> onRefresh() async {
     currentPage = 0;
     // monitor src.network fetch
     debugPrint('下拉刷新开始...');
@@ -25,32 +26,33 @@ abstract class BaseRefreshListController<E> extends BaseListController<E> {
     super.data.clear();
     addAll(list);
     debugPrint('下拉刷新结束...');
+    IndicatorResult result = IndicatorResult.success;
     if (list == null || list.isEmpty) {
       setNoData();
+    } else if (list.length < pageSize) {
+      result = IndicatorResult.noMore;
     }
-    // refreshController.refreshCompleted();
     if (autoUpdate) {
       update();
     }
-    return list;
+    return result;
   }
 
   ///加载更多
-  Future onLoad() async {
+  Future<IndicatorResult> onLoad() async {
     currentPage++;
     debugPrint('上拉刷新开始...');
     List<E>? list = await loadData();
     debugPrint('加载数据完成...');
     addAll(list);
+    IndicatorResult result = IndicatorResult.success;
     if (list == null || list.length < pageSize) {
-      // refreshController.loadNoData();
-    } else {
-      // refreshController.loadComplete();
+      result = IndicatorResult.noMore;
     }
     debugPrint('上拉刷新结束...');
     if (autoUpdate) {
       update();
     }
-    return list;
+    return result;
   }
 }

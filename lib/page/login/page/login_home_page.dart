@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
-import 'package:flutter_shop/utils/toast_utils.dart';
-
-import '../../../utils/screen_utils.dart';
+import 'package:flutter_core/flutter_core.dart';
 import '../../../widgets/webview/web_page.dart';
 import '../widget/logo_widget.dart';
 import 'login_page.dart';
@@ -55,7 +52,7 @@ class _LoginHomePageState extends State<LoginHomePage> {
                 },
                 child: buildBtn('立即登录', Colors.white, redColor),
               ),
-              SizedBox(height: get_Width(40)),
+              const SizedBox(height: 40),
               GestureDetector(
                 onTap: () {
                   if (!isAgree) {
@@ -66,11 +63,11 @@ class _LoginHomePageState extends State<LoginHomePage> {
                 },
                 child: buildBtn('立即体验', redColor, Colors.white),
               ),
-              SizedBox(height: get_Width(50)),
+              const SizedBox(height: 50),
 
               ///third
               thirdLogin(),
-              SizedBox(height: get_Width(50)),
+              const SizedBox(height: 50),
               contractWidget(),
             ],
           ),
@@ -182,18 +179,18 @@ class _LoginHomePageState extends State<LoginHomePage> {
         children: <Widget>[
           Image.asset(
             AssetBundleUtils.getIconPath('wechat'),
-            width: get_Width(40),
-            height: get_Width(40),
+            width: 40,
+            height: 40,
           ),
           Image.asset(
             AssetBundleUtils.getIconPath('qq'),
-            width: get_Width(40),
-            height: get_Width(40),
+            width: 40,
+            height: 40,
           ),
           Image.asset(
             AssetBundleUtils.getIconPath('weibo'),
-            width: get_Width(40),
-            height: get_Width(40),
+            width: 40,
+            height: 40,
           ),
         ],
       ),
@@ -207,11 +204,11 @@ class _LoginHomePageState extends State<LoginHomePage> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color: bgColor,
-          border: Border.all(color: Colors.white, width: get_Width(1)),
-          borderRadius: BorderRadius.circular(get_Height(20))),
+          border: Border.all(color: Colors.white, width: 1),
+          borderRadius: BorderRadius.circular(20)),
       child: Text(
         title,
-        style: TextStyle(fontSize: get_Sp(18), color: textColor),
+        style: TextStyle(fontSize: 18, color: textColor),
       ),
     );
   }

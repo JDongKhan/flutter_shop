@@ -1,5 +1,6 @@
+import 'package:flutter_core/flutter_core.dart';
+
 import '/base/base_common_controller.dart';
-import '../../../network/network_utils.dart';
 
 /// @author jd
 

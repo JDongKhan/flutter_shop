@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'screen_utils.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 /// @author jd
 
@@ -50,7 +49,7 @@ void showShareBottomSheet(BuildContext context) {
     // backgroundColor: currentTheme.highlightColor,
     context: context,
     builder: (BuildContext context) => Container(
-      width: get_screenWidth(),
+      width: getScreenWidth(),
       decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -58,11 +57,11 @@ void showShareBottomSheet(BuildContext context) {
           Container(
             alignment: Alignment.centerLeft,
             height: 40,
-            padding: EdgeInsets.only(left: get_Width(42), top: 10),
-            child: Text(
+            padding: const EdgeInsets.only(left: 42, top: 10),
+            child: const Text(
               '分享',
               style: TextStyle(
-                fontSize: get_Sp(32),
+                fontSize: 32,
                 color: Colors.black,
               ),
             ),
@@ -72,7 +71,7 @@ void showShareBottomSheet(BuildContext context) {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  width: get_Width(.7),
+                  width: 0.7,
                   color: currentTheme.dividerColor,
                 ),
               ),
@@ -100,7 +99,7 @@ void showShareBottomSheet(BuildContext context) {
               Navigator.pop(context);
             },
             child: Container(
-              width: get_screenWidth(),
+              width: getScreenWidth(),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 border: Border(
@@ -117,7 +116,7 @@ void showShareBottomSheet(BuildContext context) {
                   child: Text(
                     '取消',
                     style: TextStyle(
-                      fontSize: get_Sp(36),
+                      fontSize: 36,
                       color: Colors.black,
                     ),
                   ),

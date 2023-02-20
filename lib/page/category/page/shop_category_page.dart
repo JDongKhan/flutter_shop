@@ -1,11 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
-
-import '../../../utils/logger_util.dart';
-import '../../../widgets/search_bar.dart';
-import '../../../widgets/search_widget.dart';
+import '../../../widgets/searchbar/search_bar.dart';
+import '../../../widgets/searchbar/search_widget.dart';
 import '../../search/page/shop_search_result_page.dart';
 import '../controller/shop_category_controller.dart';
 import '../model/category.dart';

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_core/flutter_core.dart';
 
-import '/utils/asset_bundle_utils.dart';
-import '/utils/toast_utils.dart';
-import '/widgets/direction_button.dart';
-import '../../../utils/screen_utils.dart';
-import '../../../widgets/star_rating_widget.dart';
 import '../../model/shop_info.dart';
 import 'shop_detail_navigator_widget.dart';
 
@@ -69,10 +65,10 @@ class _ShopDetailInfoWidgetState extends State<ShopDetailInfoWidget> {
     // if (userScroll) {
     //切换导航tabbar
     int tempIndex = 0;
-    if (offset >= _commentOffset - get_Height(110)) {
+    if (offset >= _commentOffset - 110) {
       tempIndex = 1;
     }
-    if (offset >= _productDetailOffset - get_Height(110)) {
+    if (offset >= _productDetailOffset - 110) {
       tempIndex = 2;
     }
 

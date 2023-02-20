@@ -1,6 +1,6 @@
+import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
 
-import '../utils/logger_util.dart';
 import 'base_controller.dart';
 
 /// 列表controller，专门为list实现
@@ -31,6 +31,12 @@ abstract class BaseListController<E> extends BaseController {
   void addAll(List<E>? list) {
     if (list == null) return;
     _data.addAll(list);
+  }
+
+  ///添加整个列表数据
+  void insertAll(int index, List<E>? list) {
+    if (list == null) return;
+    _data.insertAll(index, list);
   }
 
   ///删除单条数据

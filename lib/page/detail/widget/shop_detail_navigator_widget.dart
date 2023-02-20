@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/screen_utils.dart';
-
 /// @author jd
 
 class ShopDetailNavigatorController extends ChangeNotifier {
@@ -126,14 +124,14 @@ class _ShopDetailNavigatorWidgetState extends State<ShopDetailNavigatorWidget>
                               Text('详情'),
                             ],
                             unselectedLabelColor: Colors.grey,
-                            unselectedLabelStyle: TextStyle(
-                              fontSize: get_Sp(14),
+                            unselectedLabelStyle: const TextStyle(
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
                             labelColor: Colors.black,
                             indicatorColor: Colors.blue,
-                            labelStyle: TextStyle(
-                              fontSize: get_Sp(15),
+                            labelStyle: const TextStyle(
+                              fontSize: 15,
                               fontWeight: FontWeight.w500,
                             ),
                             isScrollable: true,

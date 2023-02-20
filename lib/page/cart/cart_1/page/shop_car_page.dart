@@ -1,8 +1,8 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
 
-import '../../../../utils/asset_bundle_utils.dart';
 import '../../../model/carI_item.dart';
 import '../../../model/shop_info.dart';
 import '../controller/shop_car_controller.dart';

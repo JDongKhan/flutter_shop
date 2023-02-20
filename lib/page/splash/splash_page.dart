@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
 import '/page/shop_main_page.dart';
 import '../../style/colors_style.dart';
 import '../../utils/navigation_util.dart';
-import '../../utils/object_utils.dart';
 import 'splash_controller.dart';
 
 class SplashPage extends StatefulWidget {
@@ -159,11 +159,14 @@ class _SplashPageState extends State<SplashPage> {
                 child: Container(
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
-                        color: const Color(0x66000000),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4.0)),
-                        border: Border.all(
-                            width: 0.33, color: ColorsStyle.divider)),
+                      color: const Color(0x66000000),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(4.0)),
+                      border: Border.all(
+                        width: 0.33,
+                        color: Colors.grey,
+                      ),
+                    ),
                     child: Text(
                       '倒计时 ${controller.count}',
                       style:
@@ -191,7 +194,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _goMain() {
-    NavigationUtil.pushReplacement(const ShopMainPage());
+    NavigationUtil.pushReplacement("/");
   }
 
   @override

@@ -1,124 +1,73 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'src/widget/web_view_for_platform.dart';
+import 'web_view.dart';
 
 /// @author jd
 
 ///web page
 class WebPage extends StatefulWidget {
-  const WebPage({
-    this.title,
-    required this.url,
-  });
-  final String url;
+  const WebPage(
+      {super.key, required this.url, this.title, this.hideAppBar = false});
   final String? title;
+  final String url;
+  final bool hideAppBar;
   @override
   State createState() => _WebPageState();
 }
 
 class _WebPageState extends State<WebPage> {
-  final WebViewProgressController _controller = WebViewProgressController();
-  WebViewController? _webViewController;
-  bool _isLocal = false;
-  String? _url;
   String? _title;
+  final WebViewProgressController _controller = WebViewProgressController();
+
   @override
   void initState() {
-    if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
-    _title = widget.title;
-    final bool isRemote =
-        widget.url.startsWith('http') || widget.url.startsWith('https');
-    _isLocal = !isRemote;
-    if (isRemote) {
-      _url = widget.url;
-    } else {
-      if (Platform.isAndroid) {
-        _url = 'file://android_asset/flutter_assets/${widget.url}';
-      }
-    }
-    _controller.show();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget? leftWidget = null;
+    if (Navigator.canPop(context)) {
+      leftWidget = _buildAppBarLeft();
+    }
     return Container(
       color: Colors.white,
-      child: Column(
-        children: [
-          //appbar
-          _commonAppBar(
-            title: _title ?? '',
-            leftWidget: _buildAppBarLeft(),
-          ),
-          WebViewProgress(
-            controller: _controller,
-          ),
-          Expanded(
-            child: WebView(
-              initialUrl: _url,
-              javascriptMode: JavascriptMode.unrestricted, //不限制js
-              javascriptChannels: <JavascriptChannel>{_jsBridge(context)},
-              onWebViewCreated: (WebViewController controller) {
-                _webViewController = controller;
-                if (_isLocal) {
-                  _loadHtmlAssets()
-                      .then((value) => {controller.loadUrl(value)});
-                } else {
-                  controller.loadUrl(widget.url);
-                }
-              },
-              navigationDelegate: (NavigationRequest navigation) {
-                debugPrint('navigationDelegate:$navigation');
-                return NavigationDecision.navigate;
-              },
-              onPageStarted: (String url) {
-                debugPrint('onPageStarted:$url');
-                _controller.show();
-              },
-              onPageFinished: (String url) {
-                debugPrint('onPageFinished:$url');
-                _controller.dismiss();
-                _webViewController?.evaluateJavascript('document.title').then(
-                      (value) => {
-                        if (value != null && value.isNotEmpty)
-                          setState(() {
-                            _title = value;
-                          })
-                      },
-                    );
-              },
-              onWebResourceError: (error) {
-                debugPrint('onWebResourceError:$error');
-                _controller.dismiss();
-              },
+      child: NotificationListener<WebViewNotification>(
+        onNotification: (WebViewNotification notification) {
+          if (notification is WebViewPageStartedNotification) {
+            _controller.show();
+          } else if (notification is WebViewPageFinishedNotification) {
+            if (widget.title == null && notification.title != null) {
+              setState(() {
+                _title = notification.title ?? '';
+              });
+            }
+            _controller.dismiss();
+          } else if (notification is WebViewWebResourceErrorNotification) {
+            _controller.dismiss();
+          }
+          return true;
+        },
+        child: Column(
+          children: [
+            //appbar
+            if (!widget.hideAppBar)
+              _commonAppBar(
+                title: _title ?? widget.title ?? '',
+                leftWidget: leftWidget,
+              ),
+            WebViewProgress(
+              controller: _controller,
             ),
-          ),
-        ],
+            Expanded(
+              child: WebView(
+                url: widget.url,
+              ),
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  JavascriptChannel _jsBridge(BuildContext context) => JavascriptChannel(
-        name: 'jsbridge',
-        onMessageReceived: (JavascriptMessage message) async {
-          debugPrint(message.message);
-        },
-      );
-
-  Future<String> _loadHtmlAssets() async {
-    String htmlPath = await rootBundle.loadString(widget.url);
-    return Uri.dataFromString(
-      htmlPath,
-      mimeType: 'text/html',
-      encoding: Encoding.getByName('utf-8'),
-    ).toString();
   }
 
   ///通用APP bar 统一后退键
@@ -195,10 +144,10 @@ class WebViewProgressController extends ChangeNotifier {
 }
 
 class WebViewProgress extends StatefulWidget {
-  WebViewProgressController? controller;
-  WebViewProgress({this.controller});
+  final WebViewProgressController? controller;
+  const WebViewProgress({super.key, this.controller});
   @override
-  _WebViewProgressState createState() => _WebViewProgressState();
+  State createState() => _WebViewProgressState();
 }
 
 class _WebViewProgressState extends State<WebViewProgress> {
@@ -217,7 +166,7 @@ class _WebViewProgressState extends State<WebViewProgress> {
     return Visibility(
       visible: widget.controller?._show ?? false,
       child: LinearProgressIndicator(
-        // value: widget.controller.progress,
+        // value: widget.account.progress,
         backgroundColor: Colors.grey[100],
         valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[100]!),
       ),

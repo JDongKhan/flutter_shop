@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:flutter_shop/controller/user_info_controller.dart';
 import 'package:get/get.dart';
 
-import '../../../../utils/toast_utils.dart';
-import '../../../../widgets/circle_check_box.dart';
 import '../../../model/shop_info.dart';
 import '../../cart_2/shop_car2_page.dart';
 import '../controller/shop_car_controller.dart';
@@ -26,7 +25,7 @@ class ShopCarBottomWidget extends StatelessWidget {
         builder: (controller) {
           return Row(
             children: <Widget>[
-              CircleCheckBox(
+              CircleCheckBox.icon(
                 value: controller.allChecked,
                 onChanged: (value) {
                   for (var element in controller.data) {

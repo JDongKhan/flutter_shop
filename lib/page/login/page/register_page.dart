@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_shop/utils/toast_utils.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/screen_utils.dart';
 import '../vm/register_vm.dart';
 import '../widget/verify_code_button.dart';
 
@@ -20,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late double horPadding;
   @override
   void initState() {
-    horPadding = get_Width(15);
+    horPadding = 15;
     super.initState();
   }
 
@@ -41,10 +40,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   margin: const EdgeInsets.only(left: 0, top: 50),
                   child: GestureDetector(
                     onTap: clickBackBtn,
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back,
                       color: Colors.black,
-                      size: get_Width(20),
+                      size: 20,
                     ),
                   ),
                 ),
@@ -94,31 +93,30 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget inputPWD() {
     return Container(
-      height: get_Width(80),
+      height: 80,
       decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Colors.grey, width: get_Width(1)))),
+          border: Border(bottom: BorderSide(color: Colors.grey, width: 1))),
       child: TextField(
         controller: registerController.pwdController,
         onChanged: (text) {
           registerController.setPWD(text);
         },
         obscureText: true,
-        style: TextStyle(color: Colors.black, fontSize: get_Sp(32)),
+        style: const TextStyle(color: Colors.black, fontSize: 32),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: '请输入密码',
-          hintStyle: TextStyle(color: Colors.grey, fontSize: get_Sp(30)),
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 30),
           suffixIcon: GestureDetector(
             onTap: () {
               if (registerController.pwdController != null) {
                 registerController.clearPWD();
               }
             },
-            child: Icon(
+            child: const Icon(
               Icons.clear,
               color: Colors.grey,
-              size: get_Width(50),
+              size: 50,
             ),
           ),
         ),
@@ -128,10 +126,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget inputPhone() {
     return Container(
-      height: get_Width(60),
-      decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Colors.grey, width: get_Width(1)))),
+      height: 60,
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey,
+            width: 1,
+          ),
+        ),
+      ),
       child: TextField(
         keyboardType: TextInputType.number,
         controller: registerController.phoneController,
@@ -142,21 +145,21 @@ class _RegisterPageState extends State<RegisterPage> {
         onChanged: (text) {
           registerController.setPhone(text);
         },
-        style: TextStyle(color: Colors.black, fontSize: get_Sp(22)),
+        style: const TextStyle(color: Colors.black, fontSize: 22),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: '请输入手机号',
-          hintStyle: TextStyle(color: Colors.grey, fontSize: get_Sp(20)),
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 20),
           suffixIcon: GestureDetector(
             onTap: () {
               if (registerController.phoneController != null) {
                 registerController.clearPhone();
               }
             },
-            child: Icon(
+            child: const Icon(
               Icons.clear,
               color: Colors.grey,
-              size: get_Width(20),
+              size: 20,
             ),
           ),
         ),
@@ -167,10 +170,15 @@ class _RegisterPageState extends State<RegisterPage> {
   //获取验证码
   Widget inputVerifyCode() {
     return Container(
-      height: get_Width(80),
-      decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Colors.grey, width: get_Width(1)))),
+      height: 80,
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey,
+            width: 1,
+          ),
+        ),
+      ),
       child: TextField(
         controller: registerController.codeController,
         onChanged: (text) {
@@ -181,11 +189,11 @@ class _RegisterPageState extends State<RegisterPage> {
           FilteringTextInputFormatter(RegExp('[0-9]'), allow: true),
           LengthLimitingTextInputFormatter(6),
         ],
-        style: TextStyle(color: Colors.black, fontSize: get_Sp(32)),
-        decoration: InputDecoration(
+        style: const TextStyle(color: Colors.black, fontSize: 32),
+        decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: '请输入验证码',
-          hintStyle: TextStyle(color: Colors.grey, fontSize: get_Sp(30)),
+          hintStyle: TextStyle(color: Colors.grey, fontSize: 30),
           suffixIcon: VerifyCodeButton(),
         ),
       ),
@@ -194,15 +202,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget buildBtn(String title, Color bgColor, Color textColor) {
     return Container(
-      height: get_Width(60),
+      height: 60,
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color: bgColor,
-          border: Border.all(color: Colors.white, width: get_Width(1)),
-          borderRadius: BorderRadius.circular(get_Height(50))),
+          border: Border.all(color: Colors.white, width: 1),
+          borderRadius: BorderRadius.circular(50)),
       child: Text(
         title,
-        style: TextStyle(fontSize: get_Sp(22), color: textColor),
+        style: TextStyle(fontSize: 22, color: textColor),
       ),
     );
   }
@@ -213,10 +221,10 @@ class _RegisterPageState extends State<RegisterPage> {
       alignment: Alignment.center,
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: const <Widget>[
           Text(
             '手机号注册',
-            style: TextStyle(color: Colors.black, fontSize: get_Sp(22)),
+            style: TextStyle(color: Colors.black, fontSize: 22),
           ),
         ],
       ),

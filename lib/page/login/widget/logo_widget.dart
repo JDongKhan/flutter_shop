@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_shop/utils/asset_bundle_utils.dart';
-
-import '../../../utils/screen_utils.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 class LogoWidget extends StatefulWidget {
   @override
@@ -77,9 +75,8 @@ class _WaveWidgetState extends State<WaveWidget>
   @override
   void initState() {
     controller =
-        AnimationController(duration: Duration(seconds: 3), vsync: this);
-    first = Tween<double>(begin: get_Width(180), end: get_Width(360))
-        .animate(controller);
+        AnimationController(duration: const Duration(seconds: 3), vsync: this);
+    first = Tween<double>(begin: 180, end: 360).animate(controller);
     super.initState();
 //
 //    controller.addStatusListener((status) {
@@ -88,7 +85,7 @@ class _WaveWidgetState extends State<WaveWidget>
 //      }
 //    });
     first.addListener(() {
-      opacity = (1 - first.value / get_Width(360)).clamp(0.0, 1.0).toDouble();
+      opacity = (1 - first.value / 360).clamp(0.0, 1.0).toDouble();
       setState(() {});
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -111,7 +108,7 @@ class _WaveWidgetState extends State<WaveWidget>
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white.withOpacity(opacity),
-          width: get_Width(2),
+          width: 2,
         ),
       ),
     );

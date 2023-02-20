@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../utils/screen_utils.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 /// @author jd
 
@@ -59,7 +58,7 @@ class _ListBottomMenuState extends State<ListBottomMenu>
 
   @override
   Widget build(BuildContext context) {
-    final double width = (get_screenWidth() - 100) / 3 - 10;
+    final double width = (getScreenWidth() - 100) / 3 - 10;
     return Container(
       color: Colors.red,
       child: _toSizeTransition(

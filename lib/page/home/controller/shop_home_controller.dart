@@ -1,6 +1,5 @@
-import '/utils/asset_bundle_utils.dart';
+import 'package:flutter_core/flutter_core.dart';
 import '../../../base/base_common_controller.dart';
-import '../../../network/network_utils.dart';
 import '../../../service/environment.dart';
 import '../../model/shop_info.dart';
 

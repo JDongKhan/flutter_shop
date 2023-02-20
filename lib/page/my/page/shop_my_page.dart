@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_core/flutter_core.dart';
+import 'package:flutter_shop/page/activity/activity_page.dart';
 import 'package:get/get.dart';
 
-import '/utils/asset_bundle_utils.dart';
 import '../../../utils/navigation_util.dart';
 import '../../setting/setting_page.dart';
 import '../controller/shop_my_controller.dart';
@@ -188,7 +189,7 @@ class _ShopMyPageState extends State<ShopMyPage>
           children: [
             InkWell(
               onTap: () {
-                NavigationUtil.push(MemberHomePage());
+                NavigationUtil.push("/member_home");
               },
               child: Image.asset(AssetBundleUtils.getImgPath('head')),
             ),
@@ -204,7 +205,7 @@ class _ShopMyPageState extends State<ShopMyPage>
             color: _appBarStyle == 0 ? Colors.white : Colors.black12,
           ),
           onPressed: () {
-            NavigationUtil.push(SettingPage());
+            NavigationUtil.push("/setting");
           },
         )
       ];
@@ -333,7 +334,13 @@ class _ShopMyPageState extends State<ShopMyPage>
   Widget _getItem(Map<String, dynamic> item) {
     return InkWell(
       onTap: () {
-        if (item['title'] == '查询') {}
+        if (item['title'] == '合作伙伴') {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => const ActivityPage(),
+            ),
+          );
+        }
       },
       child: Tab(
         icon: Icon(iconsMap[item['icon']] as IconData),

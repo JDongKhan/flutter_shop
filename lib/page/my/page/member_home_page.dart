@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 
-import '/utils/asset_bundle_utils.dart';
 import '../../../style/styles.dart';
 import '../model/shop_content.dart';
 

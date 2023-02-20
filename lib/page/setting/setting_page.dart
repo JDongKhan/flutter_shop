@@ -1,17 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../controller/theme_controller.dart';
-import '../../controller/theme_widget.dart';
 import '../../controller/user_info_controller.dart';
 import '../../style/styles.dart';
-import '../../utils/asset_bundle_utils.dart';
 import '../../utils/navigation_util.dart';
-import '../../utils/path_utils.dart';
-import '../../utils/toast_utils.dart';
 import 'developer/developer_setting_page.dart';
 import 'feedback/feedback_page.dart';
 import 'message_setting_page.dart';
@@ -54,10 +51,10 @@ class _SettingPageState extends State {
           children: <Widget>[
             _buildCell('偏好设置'),
             _buildCell('消息通知', onTap: () {
-              NavigationUtil.push(const MessageSettingPage());
+              NavigationUtil.push("/message_setting");
             }),
             _buildCell('隐私设置', onTap: () {
-              NavigationUtil.push(const PrivacySettingPage());
+              NavigationUtil.push("/privacy_setting");
             }),
             const SettingThemeWidget(),
             const Divider(
@@ -70,7 +67,7 @@ class _SettingPageState extends State {
               padding: EdgeInsets.only(top: 20),
             ),
             _buildCell('意见反馈', onTap: () {
-              NavigationUtil.push(const FeedbackPage());
+              NavigationUtil.push("/feedback");
             }),
             _buildCell2(
               '锁定开关',
@@ -82,7 +79,7 @@ class _SettingPageState extends State {
               _showDialog();
             }),
             _buildCell('开发者设置', onTap: () {
-              NavigationUtil.push(const DeveloperSettingPage());
+              NavigationUtil.push("/developer_setting");
             }),
             if (userInfoController.isLogin)
               Container(
@@ -354,7 +351,9 @@ class SettingThemeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeController themeController = ThemeNotifierProviderWidget.of<ThemeController>(context)  ?? ThemeController();
+    ThemeController themeController =
+        ThemeNotifierProviderWidget.of<ThemeController>(context) ??
+            ThemeController();
     return Container(
       color: Colors.white,
       child: ExpansionTile(

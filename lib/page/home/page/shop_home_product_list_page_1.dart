@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 
-import '/utils/asset_bundle_utils.dart';
 import '../../../widgets/custom_bouncing_scroll_physics.dart';
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';

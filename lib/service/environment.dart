@@ -4,6 +4,7 @@ import 'src/services_path.dart';
 
 export 'src/extension_login.dart';
 export 'src/extension_shop.dart';
+export 'src/extension_order.dart';
 
 /// @author jd
 
@@ -26,12 +27,15 @@ class Environments {
     String env = 'prd',
     bool debug = false,
   }) {
-    if (env == 'prd') {
+    String locaEnv = env.toLowerCase();
+    if (locaEnv == 'prd') {
       environment = Environment.prd;
-    } else if (env == 'sit') {
+    } else if (locaEnv == 'sit') {
       environment = Environment.sit;
-    } else if (env == 'pre') {
+    } else if (locaEnv == 'pre') {
       environment = Environment.pre;
+    } else {
+      environment = Environment.prd;
     }
     debugPrint('初始化环境:$environment');
     this.debug = debug;

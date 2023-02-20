@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 
-import '../../../widgets/direction_button.dart';
 import '../../model/shop_info.dart';
 
 /// @author jd

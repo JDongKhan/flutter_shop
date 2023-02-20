@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
 
-import '../../../../widgets/circle_check_box.dart';
-import '../../../../widgets/step_number_widget.dart';
 import '../../../model/carI_item.dart';
 import '../controller/shop_car_controller.dart';
 
@@ -28,7 +27,7 @@ class _ShopCarItemState extends State<ShopCarItem> {
       color: Colors.white,
       child: Row(
         children: [
-          CircleCheckBox(
+          CircleCheckBox.icon(
             value: checked,
             onChanged: (value) {
               controller.checkItem(item, value);

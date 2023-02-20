@@ -1,9 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
-
-import '../network/app_exceptions.dart';
 
 ///@author JD
 

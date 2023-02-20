@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../widgets/direction_button.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 /// @author jd
 class ShopSearchFilterWidget extends StatefulWidget {

@@ -1,6 +1,6 @@
+import 'package:flutter_core/flutter_core.dart';
 import 'package:flutter_shop/base/base_list_controller.dart';
 
-import '../../../network/network_utils.dart';
 import '../../../service/environment.dart';
 import '../model/category.dart';
 
