@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 import 'cart/cart_1/page/shop_car_page.dart';
 import 'category/page/shop_category_page.dart';
@@ -72,13 +73,29 @@ class _ShopMainPageState extends State<ShopMainPage>
     });
   }
 
+  DateTime? popTime;
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      onPopPage: (route, result) => route.didPop(result),
-      pages: [
-        MaterialPage(child: _firstPage()),
-      ],
+    return WillPopScope(
+      onWillPop: () async {
+        if (popTime == null ||
+            DateTime.now().difference(popTime!) > const Duration(seconds: 1)) {
+          popTime = DateTime.now();
+          //进行拦截,给个提示,如果再次按的话,执行下面的操作;
+          ToastUtils.toast('再次点击退出app');
+          return Future.value(false);
+        } else {
+          popTime = DateTime.now();
+          // 退出app
+          return Future.value(true);
+        }
+      },
+      child: Navigator(
+        onPopPage: (route, result) => route.didPop(result),
+        pages: [
+          MaterialPage(child: _firstPage()),
+        ],
+      ),
     );
   }
 

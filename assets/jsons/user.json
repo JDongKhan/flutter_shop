@@ -33,23 +33,28 @@
   "orderMenu": [
     {
       "icon": "payment",
-      "title": "待支付"
+      "title": "待支付",
+      "route": "/order_list"
     },
     {
       "icon": "send",
-      "title": "待发货"
+      "title": "待发货",
+      "route": "/order_list"
     },
     {
       "icon" : "receipt",
-      "title" : "待收货"
+      "title" : "待收货",
+      "route": "/order_list"
     },
     {
       "icon" : "comment",
-      "title" : "待评价"
+      "title" : "待评价",
+      "route": "/order_list"
     },
     {
       "icon" : "backpack",
-      "title" : "退款/售后"
+      "title" : "退款/售后",
+      "route": "/order_list"
     }
   ],
   "gridMenu": [
@@ -71,7 +76,8 @@
     },
     {
       "icon": "people",
-      "title": "合作伙伴"
+      "title": "活动",
+      "route": "/activity"
     },
     {
       "icon": "color_lens",

@@ -1,4 +1,6 @@
 import 'package:flutter_core/flutter_core.dart';
+import 'package:flutter_shop/page/activity/activity_page.dart';
+import 'package:flutter_shop/page/order/order_list/page/order_list_page.dart';
 import 'package:flutter_shop/widgets/webview/web_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,6 +44,11 @@ final routes = GoRouter(
     // ),
     GoRoute(path: '/splash', builder: (context, state) => SplashPage()),
     GoRoute(path: '/', builder: (context, state) => const ShopMainPage()),
+    GoRoute(
+        path: '/activity', builder: (context, state) => const ActivityPage()),
+    GoRoute(
+        path: '/order_list',
+        builder: (context, state) => const OrderListPage()),
     GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
     GoRoute(
         path: '/member_home', builder: (context, state) => MemberHomePage()),

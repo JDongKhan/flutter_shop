@@ -212,10 +212,12 @@ class _ShopMyPageState extends State<ShopMyPage>
 
   //顶部菜单
   Widget _buildMenusGridWidget() {
-    return Container(
+    double itemWidth = 80;
+    int count = MediaQuery.of(context).size.width ~/ itemWidth;
+    return SizedBox(
       height: 90,
       child: GridView.count(
-        crossAxisCount: 4,
+        crossAxisCount: count,
         shrinkWrap: true,
         padding: const EdgeInsets.all(0),
         physics: const NeverScrollableScrollPhysics(),
@@ -243,6 +245,8 @@ class _ShopMyPageState extends State<ShopMyPage>
 
   //订单菜单
   Widget _buildOrderMenusWidget() {
+    double itemWidth = 80;
+    int count = MediaQuery.of(context).size.width ~/ itemWidth;
     return SliverToBoxAdapter(
       child: Card(
         child: Column(
@@ -274,7 +278,7 @@ class _ShopMyPageState extends State<ShopMyPage>
             ),
             const Divider(),
             GridView.count(
-              crossAxisCount: 5,
+              crossAxisCount: count,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
@@ -293,6 +297,8 @@ class _ShopMyPageState extends State<ShopMyPage>
 
   //常用功能
   Widget _buildFunctionMenuWidget() {
+    double itemWidth = 80;
+    int count = MediaQuery.of(context).size.width ~/ itemWidth;
     return SliverToBoxAdapter(
       child: Card(
         child: Column(
@@ -313,7 +319,7 @@ class _ShopMyPageState extends State<ShopMyPage>
             ),
             const Divider(),
             GridView.count(
-              crossAxisCount: 4,
+              crossAxisCount: count,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
@@ -334,12 +340,9 @@ class _ShopMyPageState extends State<ShopMyPage>
   Widget _getItem(Map<String, dynamic> item) {
     return InkWell(
       onTap: () {
-        if (item['title'] == '合作伙伴') {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => const ActivityPage(),
-            ),
-          );
+        String? route = item['route'];
+        if (route != null) {
+          NavigationUtil.push(route);
         }
       },
       child: Tab(
