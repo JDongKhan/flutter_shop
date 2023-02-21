@@ -1,46 +1,44 @@
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/flutter_core.dart';
-import 'package:flutter_shop/page/home/controller/shop_home_controller.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
-import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
+import '../../../widgets/common_sliver_persistent_header_delegate.dart';
 import '../../../widgets/my_search_delegate.dart';
 import '../../../widgets/searchbar/search_bar.dart';
+import '/controller/theme_controller.dart';
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
 import '../../shop_main_page.dart';
+import '../controller/shop_home_controller.dart';
 import '../widget/list_bottom_menu.dart';
 import '../widget/shop_home_appbar.dart';
 import '../widget/shop_home_widget_config.dart';
-import 'shop_secondary_tabView_page.dart';
 import 'shop_home_product_list_page.dart';
 import 'shop_home_product_list_page_1.dart';
 
-class ShopHomePage extends StatefulWidget {
-  const ShopHomePage({Key? key}) : super(key: key);
+/// @author jd
 
+@Deprecated("因NestedScrollView联动滚动有bug，所以废弃了")
+class ShopHomePage1 extends StatefulWidget {
   @override
-  State<ShopHomePage> createState() => _ShopHomePageState();
+  _ShopHomePage1State createState() => _ShopHomePage1State();
 }
 
-class _ShopHomePageState extends State<ShopHomePage>
+class _ShopHomePage1State extends State<ShopHomePage1>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   final ShopHomeController _controller = Get.put(ShopHomeController());
+  TabController? _tabController;
+  double _offset = 0;
   final ListBottomMenuController _bottomMenuController =
       ListBottomMenuController(animal: true);
-  double _offset = 0;
 
   @override
   void initState() {
+    _tabController =
+        TabController(vsync: this, length: _controller.tabs.length);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -61,6 +59,8 @@ class _ShopHomePageState extends State<ShopHomePage>
           transform: Matrix4.translationValues(0.0, _offset, 0.0),
           child: _refreshWidget(
             child: GetBuilder<ShopHomeController>(builder: (controller) {
+              _tabController =
+                  TabController(vsync: this, length: controller.tabs.length);
               return _buildScrollWidget(controller);
             }),
           ),
@@ -70,91 +70,101 @@ class _ShopHomePageState extends State<ShopHomePage>
   }
 
   Widget _buildScrollWidget(ShopHomeController controller) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
-    final double pinnedHeaderHeight =
-        //statusBar height
-        statusBarHeight +
-            //pinned SliverAppBar height in header
-            kToolbarHeight;
-    return DefaultTabController(
-      length: controller.tabs.length,
-      child: ExtendedNestedScrollView(
-        headerSliverBuilder: (BuildContext c, bool f) {
-          return buildSliverHeader(controller);
-        },
-        //1.[pinned sliver header issue](https://github.com/flutter/flutter/issues/22393)
-        pinnedHeaderSliverHeightBuilder: () {
-          return pinnedHeaderHeight;
-        },
-        //2.[inner scrollables in tabview sync issue](https://github.com/flutter/flutter/issues/21868)
-        onlyOneScrollInBody: true,
-        body: Column(
-          children: <Widget>[
-            Container(
-              color: Colors.white,
-              child: TabBar(
-                labelColor: Colors.blue,
-                indicatorColor: Colors.blue,
-                indicatorSize: TabBarIndicatorSize.label,
-                indicatorWeight: 2.0,
-                isScrollable: true,
-                unselectedLabelColor: Colors.grey,
-                tabs: _controller.tabs
-                    .map<Tab>((dynamic map) => Tab(text: map['name']))
-                    .toList(),
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        List<Widget> headerSlivers = [];
+
+        //下拉刷新
+        headerSlivers.add(PullToRefreshContainer(
+          (info) => buildPulltoRefreshImage(context, info),
+        ));
+
+        //导航
+        headerSlivers.add(
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+
+            ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
+            sliver: ShopHomeAppBar(
+              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+              title: Text(
+                '生产有限公司',
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+              ),
+              centerTitle: false,
+              expandedHeight: 140.0,
+              brightness: Brightness.light,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: _buildSearch(context),
+              ),
+              // leading: const IconButton(
+              //   icon: Icon(
+              //     Icons.home,
+              //     color: Colors.white,
+              //   ),
+              // ),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(
+                    Icons.business,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+        );
+
+        //空隙
+        headerSlivers.add(
+          const SliverToBoxAdapter(
+            child: SafeArea(
+              child: SizedBox(
+                height: 50,
               ),
             ),
-            Expanded(
-              child: TabBarView(
-                children:
-                    controller.tabs.map<Widget>((e) => _buildPage(e)).toList(),
-              ),
+          ),
+        );
+
+        //轮播图
+        if (controller.banners.isNotEmpty) {
+          headerSlivers.add(SliverToBoxAdapter(child: _buildSwiper()));
+        }
+        //菜单
+        if (controller.recommends.isNotEmpty) {
+          headerSlivers.add(SliverToBoxAdapter(child: _buildGridView()));
+        }
+
+        if (controller.tabs.isNotEmpty) {
+          //tab菜单
+          headerSlivers.add(_buildPersistentHeader());
+        }
+        return headerSlivers;
+      },
+      body: TabBarView(
+        controller: _tabController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: controller.tabs
+            .map(
+              (e) => _buildContentPage(e),
             )
-          ],
-        ),
+            .toList(),
       ),
     );
   }
 
-  Widget _buildPage(Map e) {
+  //tab下的页面
+  Widget _buildContentPage(Map e) {
     final int index = _controller.tabs.indexOf(e);
-    String title = e['name'].toString();
-    if (index == 0) {
-      return ShopHomeProductListPage1(
-        keyword: title,
-      );
-    }
     if (index == 1) {
-      return ShopSecondaryTabViewPage(
-        title,
-        e,
-      );
-    }
-    if (index == 2) {
-      return GlowNotificationWidget(
-        ExtendedVisibilityDetector(
-          uniqueKey: Key(title),
-          child: ListView.builder(
-            //store Page state
-            key: PageStorageKey<String>(title),
-            physics: const ClampingScrollPhysics(),
-            itemCount: 50,
-            itemBuilder: (BuildContext c, int i) {
-              return Container(
-                alignment: Alignment.center,
-                height: 60.0,
-                child: Text(
-                  '${Key(title)}: ListView$i',
-                ),
-              );
-            },
-          ),
-        ),
-        showGlowLeading: false,
+      return ShopHomeProductListPage1(
+        keyword: e['title'].toString(),
       );
     }
     return ShopHomeProductListPage(
-      keyword: title,
+      keyword: e['title'].toString(),
     );
   }
 
@@ -251,40 +261,37 @@ class _ShopHomePageState extends State<ShopHomePage>
 
   ///GridView
   Widget _buildGridView() {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(
-              top: 10,
-              left: 10,
-              bottom: 10,
-            ),
-            child: const Text(
-              '常购清单',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(
+            top: 10,
+            left: 10,
+            bottom: 10,
           ),
-          SizedBox(
-            height: 180,
-            child: GridView.builder(
-                scrollDirection: Axis.horizontal,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1, //每行三列
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1.4 //显示区域宽高相等
-                    ),
-                itemCount: _controller.recommends.length,
-                itemBuilder: (context, index) {
-                  ShopInfo shopInfo = _controller.recommends[index];
-                  //如果显示到最后一个并且Icon总数小于200时继续获取数据
-                  return _buildGirdItem(shopInfo);
-                }),
+          child: const Text(
+            '常购清单',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 180,
+          child: GridView.builder(
+              scrollDirection: Axis.horizontal,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1, //每行三列
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 1.4 //显示区域宽高相等
+                  ),
+              itemCount: _controller.recommends.length,
+              itemBuilder: (context, index) {
+                ShopInfo shopInfo = _controller.recommends[index];
+                //如果显示到最后一个并且Icon总数小于200时继续获取数据
+                return _buildGirdItem(shopInfo);
+              }),
+        ),
+      ],
     );
   }
 
@@ -341,50 +348,25 @@ class _ShopHomePageState extends State<ShopHomePage>
     );
   }
 
-  List<Widget> buildSliverHeader(ShopHomeController controller) {
-    List<Widget> headerSlivers = [];
-    //下拉刷新
-    headerSlivers.add(PullToRefreshContainer(
-      (info) => buildPulltoRefreshImage(context, info),
-    ));
-    //导航
-    headerSlivers.add(
-      ShopHomeAppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        title: Text(
-          '生产有限公司',
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
-        centerTitle: false,
-        expandedHeight: 140.0,
-        brightness: Brightness.light,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: _buildSearch(context),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.business,
-              color: Colors.white,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-    //
-    //轮播图
-    if (controller.banners.isNotEmpty) {
-      headerSlivers.add(SliverToBoxAdapter(child: _buildSwiper()));
-    }
-    //菜单
-    if (controller.recommends.isNotEmpty) {
-      headerSlivers.add(SliverToBoxAdapter(child: _buildGridView()));
-    }
-
-    return headerSlivers;
-  }
+  ///tabbar
+  Widget _buildPersistentHeader() => SliverPersistentHeader(
+        pinned: true,
+        delegate: CommonSliverPersistentHeaderDelegate(
+            40,
+            60,
+            Container(
+              color: Colors.grey[100],
+              child: TabBar(
+                controller: _tabController,
+                isScrollable: true,
+                indicatorSize: TabBarIndicatorSize.label,
+                // These are the widgets to put in each tab in the tab bar.
+                tabs: _controller.tabs
+                    .map<Tab>((dynamic map) => Tab(text: map['name']))
+                    .toList(),
+              ),
+            )),
+      );
 
   @override
   bool get wantKeepAlive => true;

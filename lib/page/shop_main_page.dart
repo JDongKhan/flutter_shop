@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'cart/cart_1/page/shop_car_page.dart';
 import 'category/page/shop_category_page.dart';
-import 'home/page/shop_home_page_3.dart';
+import 'home/page/shop_home_page.dart';
 import 'my/page/shop_my_page.dart';
 
 /// @author jd
@@ -32,7 +32,7 @@ class _ShopMainPageState extends State<ShopMainPage>
     _tabs.add({
       'title': '首页',
       'icon': Icons.home,
-      'page': const ShopHomePage3(),
+      'page': const ShopHomePage(),
     });
 
     _tabs.add({

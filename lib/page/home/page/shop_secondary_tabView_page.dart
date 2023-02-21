@@ -2,15 +2,15 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
-class ShopSecondaryTabView extends StatefulWidget {
-  const ShopSecondaryTabView(this.tabKey, this.info, {super.key});
+class ShopSecondaryTabViewPage extends StatefulWidget {
+  const ShopSecondaryTabViewPage(this.tabKey, this.info, {super.key});
   final String tabKey;
   final Map info;
   @override
-  State createState() => _ShopSecondaryTabViewState();
+  State createState() => _ShopSecondaryTabViewPageState();
 }
 
-class _ShopSecondaryTabViewState extends State<ShopSecondaryTabView>
+class _ShopSecondaryTabViewPageState extends State<ShopSecondaryTabViewPage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   late final TabController secondaryTC;
   late List list;
