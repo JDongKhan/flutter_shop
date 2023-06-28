@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 ///@author JD
-class ColorsStyle {
+class CommonColorsStyle {
   // This class is not meant to be instantiated or extended; this constructor
   // prevents instantiation and src.extension.
-  ColorsStyle._();
+  CommonColorsStyle._();
 
   /// Completely invisible.
   static const Color transparent = Color(0x00000000);

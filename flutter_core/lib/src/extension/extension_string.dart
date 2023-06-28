@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 
 import '../utils/transform_utils.dart';
+import 'extension_datetime.dart';
 
 extension ExtensionString on String {
   /// Checks if string is num (int or double).
@@ -33,13 +35,37 @@ extension ExtensionString on String {
   /// Transform string to num type
   num? toNum() => num.tryParse(this);
 
+  String basename() => path.basename(this);
+  String basenameWithoutExtension() => path.basenameWithoutExtension(this);
+
+  /************************ toDateTime ******************/
   /// Transform String millisecondsSinceEpoch (DateTime) to DateTime
-  DateTime? toDateTime() {
+  DateTime? toDateTime({bool? isUtc}) {
     int ms = toInt();
     if (ms != 0) {
       return DateTime.fromMillisecondsSinceEpoch(ms);
     }
-    return null;
+    DateTime? dateTime = DateTime.tryParse(this);
+    if (isUtc != null) {
+      if (isUtc) {
+        dateTime = dateTime?.toUtc();
+      } else {
+        dateTime = dateTime?.toLocal();
+      }
+    }
+    return dateTime;
+  }
+
+  int? toDateTimeMillisecondsSinceEpoch({bool? isUtc}) {
+    DateTime? dateTime = toDateTime(isUtc: isUtc);
+    return dateTime?.millisecondsSinceEpoch;
+  }
+
+  /// format date by date str.
+  /// dateStr 日期字符串
+  String? formatDateString({bool? isUtc, String? format}) {
+    DateTime? dateTime = toDateTime(isUtc: isUtc);
+    return dateTime?.toStringWithFormat(format: format);
   }
 
   /// Transform string value to binary

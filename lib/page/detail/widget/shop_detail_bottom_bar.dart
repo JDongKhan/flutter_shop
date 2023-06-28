@@ -32,7 +32,7 @@ class _ShopDetailBottomBarState extends State<ShopDetailBottomBar> {
           child: Row(
             children: [
               DirectionButton(
-                action: () {},
+                onTap: () {},
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 text: const Text(
                   '收藏',
@@ -44,7 +44,7 @@ class _ShopDetailBottomBarState extends State<ShopDetailBottomBar> {
                 ),
               ),
               DirectionButton(
-                action: () {
+                onTap: () {
                   ShopMainPage.of(context)?.toCar(context);
                 },
                 margin: const EdgeInsets.only(left: 10, right: 10),
@@ -58,7 +58,7 @@ class _ShopDetailBottomBarState extends State<ShopDetailBottomBar> {
                 ),
               ),
               DirectionButton(
-                action: () {},
+                onTap: () {},
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 text: const Text(
                   '客服',

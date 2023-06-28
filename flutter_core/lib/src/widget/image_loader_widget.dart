@@ -16,7 +16,10 @@ class ImageLoaderWidget extends StatelessWidget {
     this.fit = BoxFit.fill,
     this.placeholderFit = BoxFit.contain,
     this.alignment = Alignment.center,
-    this.hasBackground = true,
+    this.foregroundDecoration,
+    this.padding,
+    this.margin,
+    this.decoration,
     this.defaultImage = 'default_image',
   }) : super(key: key);
 
@@ -27,19 +30,19 @@ class ImageLoaderWidget extends StatelessWidget {
   final BoxFit placeholderFit;
   final String defaultImage;
   final Alignment alignment;
-  final bool hasBackground;
-
+  final Decoration? foregroundDecoration;
+  final Decoration? decoration;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
       height: height,
-      foregroundDecoration: hasBackground
-          ? const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-              color: Color.fromRGBO(0, 0, 0, 0.03),
-            )
-          : null,
+      padding: padding,
+      margin: margin,
+      foregroundDecoration: foregroundDecoration,
+      decoration: decoration,
       child: _buildImage(),
     );
   }

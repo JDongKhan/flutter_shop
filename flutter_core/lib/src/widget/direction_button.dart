@@ -3,11 +3,18 @@ import 'package:flutter_core/src/utils/asset_bundles_utils.dart';
 
 ///@author JD
 
+enum IconTextAlignment {
+  iconTopTextBottom, //图在上文字在下
+  iconBottomTextTop, //图在下文字在上
+  iconLeftTextRight, //图在左文字在右
+  iconRightTextLeft, //图在右文字在左
+}
+
 ///icon和text可以设定排版方向
 class DirectionButton extends StatelessWidget {
   const DirectionButton({
     Key? key,
-    this.action,
+    this.onTap,
     this.icon,
     this.text,
     this.backgroundImage,
@@ -17,15 +24,15 @@ class DirectionButton extends StatelessWidget {
     this.padding = const EdgeInsets.all(5),
     this.margin = const EdgeInsets.all(0),
     this.backgroundColor = Colors.transparent,
-    this.imageDirection = AxisDirection.left,
+    this.alignment = IconTextAlignment.iconLeftTextRight,
   }) : super(key: key);
 
-  final Icon? icon;
+  final Widget? icon;
   final double middlePadding;
-  final Function? action;
+  final Function? onTap;
   final Text? text;
   final String? backgroundImage;
-  final AxisDirection imageDirection;
+  final IconTextAlignment alignment;
   final Color backgroundColor;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
@@ -41,7 +48,8 @@ class DirectionButton extends StatelessWidget {
     const double bPadding = 2;
     Widget? layoutWidget;
     List<Widget> childList = [];
-    if (imageDirection == AxisDirection.up) {
+    //图上文字下
+    if (alignment == IconTextAlignment.iconTopTextBottom) {
       if (imageWidget != null) childList.add(imageWidget);
       if (text != null) {
         childList.add(Container(
@@ -59,7 +67,8 @@ class DirectionButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: childList,
       );
-    } else if (imageDirection == AxisDirection.down) {
+    } else if (alignment == IconTextAlignment.iconBottomTextTop) {
+      //图下文字上
       if (text != null) {
         childList.add(Container(
           padding: EdgeInsets.only(
@@ -77,7 +86,8 @@ class DirectionButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: childList,
       );
-    } else if (imageDirection == AxisDirection.left) {
+    } else if (alignment == IconTextAlignment.iconLeftTextRight) {
+      //图左文字右
       if (imageWidget != null) childList.add(imageWidget);
       if (text != null) {
         childList.add(Container(
@@ -96,7 +106,8 @@ class DirectionButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: childList,
       );
-    } else if (imageDirection == AxisDirection.right) {
+    } else if (alignment == IconTextAlignment.iconRightTextLeft) {
+      //图右文字左
       if (text != null) {
         childList.add(Container(
           padding: EdgeInsets.only(
@@ -138,10 +149,10 @@ class DirectionButton extends StatelessWidget {
       margin: margin,
       child: layoutWidget,
     );
-    if (action != null) {
+    if (onTap != null) {
       layoutWidget = InkWell(
         onTap: () {
-          if (action != null) action?.call();
+          if (onTap != null) onTap?.call();
         },
         child: layoutWidget,
       );

@@ -1,9 +1,13 @@
+import 'package:flutter_core/flutter_core.dart';
+
 /// 从common_utils组件库拷贝过来并修改部分代码，因为只需要它的一部分
 
 /// 一些常用格式参照。可以自定义格式，例如：'yyyy/MM/dd HH:mm:ss'，'yyyy/M/d HH:mm:ss'。
 /// 格式要求
 /// year -> yyyy/yy   month -> MM/M    day -> dd/d
 /// hour -> HH/H      minute -> mm/m   second -> ss/s
+///
+
 class DateFormats {
   static String full = 'yyyy-MM-dd HH:mm:ss';
   static String yyyyMMddHHmm = 'yyyy-MM-dd HH:mm';
@@ -24,110 +28,14 @@ class DateFormats {
   static String zhHHmm = 'HH时mm分';
 }
 
-/// month->days.
-Map<int, int> monthDay = {
-  1: 31,
-  2: 28,
-  3: 31,
-  4: 30,
-  5: 31,
-  6: 30,
-  7: 31,
-  8: 31,
-  9: 30,
-  10: 31,
-  11: 30,
-  12: 31,
-};
-
 /// Date Util.
 class DateUtil {
-  /// get DateTime By DateStr.
-  static DateTime? getDateTime(String dateStr, {bool? isUtc}) {
-    DateTime? dateTime = DateTime.tryParse(dateStr);
-    if (isUtc != null) {
-      if (isUtc) {
-        dateTime = dateTime?.toUtc();
-      } else {
-        dateTime = dateTime?.toLocal();
-      }
-    }
-    return dateTime;
-  }
-
-  /// get DateTime By Milliseconds.
-  static DateTime getDateTimeByMs(int ms, {bool isUtc = false}) {
-    return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: isUtc);
-  }
-
-  /// get DateMilliseconds By DateStr.
-  static int? getDateMsByTimeStr(String dateStr, {bool? isUtc}) {
-    DateTime? dateTime = getDateTime(dateStr, isUtc: isUtc);
-    return dateTime?.millisecondsSinceEpoch;
-  }
-
-  /// get Now Date Milliseconds.
-  static int getNowDateMs() {
-    return DateTime.now().millisecondsSinceEpoch;
-  }
-
-  /// get Now Date Str.(yyyy-MM-dd HH:mm:ss)
-  static String getNowDateStr() {
-    return formatDate(DateTime.now());
-  }
-
-  /// format date by milliseconds.
-  /// milliseconds 日期毫秒
-  static String formatDateMs(int ms, {bool isUtc = false, String? format}) {
-    return formatDate(getDateTimeByMs(ms, isUtc: isUtc), format: format);
-  }
-
-  /// format date by date str.
-  /// dateStr 日期字符串
-  static String formatDateStr(String dateStr, {bool? isUtc, String? format}) {
-    return formatDate(getDateTime(dateStr, isUtc: isUtc), format: format);
-  }
-
-  /// format date by DateTime.
-  /// format 转换格式(已提供常用格式 DateFormats，可以自定义格式：'yyyy/MM/dd HH:mm:ss')
-  /// 格式要求
-  /// year -> yyyy/yy   month -> MM/M    day -> dd/d
-  /// hour -> HH/H      minute -> mm/m   second -> ss/s
   static String formatDate(DateTime? dateTime, {String? format}) {
-    if (dateTime == null) return '';
-    format = format ?? DateFormats.full;
-    if (format.contains('yy')) {
-      String year = dateTime.year.toString();
-      if (format.contains('yyyy')) {
-        format = format.replaceAll('yyyy', year);
-      } else {
-        format = format.replaceAll(
-            'yy', year.substring(year.length - 2, year.length));
-      }
+    String? value = dateTime?.toStringWithFormat(format: format);
+    if (value == null) {
+      return '';
     }
-
-    format = _comFormat(dateTime.month, format, 'M', 'MM');
-    format = _comFormat(dateTime.day, format, 'd', 'dd');
-    format = _comFormat(dateTime.hour, format, 'H', 'HH');
-    format = _comFormat(dateTime.minute, format, 'm', 'mm');
-    format = _comFormat(dateTime.second, format, 's', 'ss');
-    format = _comFormat(dateTime.millisecond, format, 'S', 'SSS');
-
-    return format;
-  }
-
-  /// com format.
-  static String _comFormat(
-      int value, String format, String single, String full) {
-    if (format.contains(single)) {
-      if (format.contains(full)) {
-        format =
-            format.replaceAll(full, value < 10 ? '0$value' : value.toString());
-      } else {
-        format = format.replaceAll(single, value.toString());
-      }
-    }
-    return format;
+    return value;
   }
 
   /// get WeekDay.
@@ -138,63 +46,21 @@ class DateUtil {
   static String getWeekday(DateTime? dateTime,
       {String languageCode = 'en', bool short = false}) {
     if (dateTime == null) return "";
-    String weekday = "";
-    switch (dateTime.weekday) {
-      case 1:
-        weekday = languageCode == 'zh' ? '星期一' : 'Monday';
-        break;
-      case 2:
-        weekday = languageCode == 'zh' ? '星期二' : 'Tuesday';
-        break;
-      case 3:
-        weekday = languageCode == 'zh' ? '星期三' : 'Wednesday';
-        break;
-      case 4:
-        weekday = languageCode == 'zh' ? '星期四' : 'Thursday';
-        break;
-      case 5:
-        weekday = languageCode == 'zh' ? '星期五' : 'Friday';
-        break;
-      case 6:
-        weekday = languageCode == 'zh' ? '星期六' : 'Saturday';
-        break;
-      case 7:
-        weekday = languageCode == 'zh' ? '星期日' : 'Sunday';
-        break;
-      default:
-        break;
-    }
-    return languageCode == 'zh'
-        ? (short ? weekday.replaceAll('星期', '周') : weekday)
-        : weekday.substring(0, short ? 3 : weekday.length);
+    return dateTime.getWeekdayDesc(languageCode: languageCode, short: short);
   }
 
   /// get WeekDay By Milliseconds.
   static String getWeekdayByMs(int milliseconds,
       {bool isUtc = false, String languageCode = 'en', bool short = false}) {
-    DateTime dateTime = getDateTimeByMs(milliseconds, isUtc: isUtc);
+    DateTime dateTime = milliseconds.toDateTime(isUtc: isUtc);
     return getWeekday(dateTime, languageCode: languageCode, short: short);
   }
 
   /// get day of year.
   /// 在今年的第几天.
-  static int getDayOfYear(DateTime dateTime) {
-    int year = dateTime.year;
-    int month = dateTime.month;
-    int days = dateTime.day;
-    for (int i = 1; i < month; i++) {
-      days = days + monthDay[i]!;
-    }
-    if (isLeapYearByYear(year) && month > 2) {
-      days = days + 1;
-    }
-    return days;
-  }
-
-  /// get day of year.
-  /// 在今年的第几天.
   static int getDayOfYearByMs(int ms, {bool isUtc = false}) {
-    return getDayOfYear(DateTime.fromMillisecondsSinceEpoch(ms, isUtc: isUtc));
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(ms, isUtc: isUtc);
+    return dateTime.getDayOfYear();
   }
 
   /// is today.
@@ -205,7 +71,7 @@ class DateUtil {
         DateTime.fromMillisecondsSinceEpoch(milliseconds, isUtc: isUtc);
     DateTime now;
     if (locMs != null) {
-      now = DateUtil.getDateTimeByMs(locMs);
+      now = locMs.toDateTime();
     } else {
       now = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
     }
@@ -216,7 +82,7 @@ class DateUtil {
   /// 是否是昨天.
   static bool isYesterday(DateTime dateTime, DateTime locDateTime) {
     if (yearIsEqual(dateTime, locDateTime)) {
-      int spDay = getDayOfYear(locDateTime) - getDayOfYear(dateTime);
+      int spDay = locDateTime.getDayOfYear() - dateTime.getDayOfYear();
       return spDay == 1;
     } else {
       return ((locDateTime.year - dateTime.year == 1) &&
@@ -243,7 +109,7 @@ class DateUtil {
     DateTime old1 = DateTime.fromMillisecondsSinceEpoch(ms, isUtc: isUtc);
     DateTime now1;
     if (locMs != null) {
-      now1 = DateUtil.getDateTimeByMs(locMs, isUtc: isUtc);
+      now1 = locMs.toDateTime(isUtc: isUtc);
     } else {
       now1 = isUtc ? DateTime.now().toUtc() : DateTime.now().toLocal();
     }
@@ -270,15 +136,9 @@ class DateUtil {
         DateTime.fromMillisecondsSinceEpoch(locMs));
   }
 
-  /// Return whether it is leap year.
-  /// 是否是闰年
-  static bool isLeapYear(DateTime dateTime) {
-    return isLeapYearByYear(dateTime.year);
-  }
-
-  /// Return whether it is leap year.
-  /// 是否是闰年
-  static bool isLeapYearByYear(int year) {
-    return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+  static int daysInMonth(final int year, final int month) {
+    DateTime x1 = DateTime(year, month, 0).toUtc();
+    var days = DateTime(year, month + 1, 0).toUtc().difference(x1).inDays;
+    return days;
   }
 }

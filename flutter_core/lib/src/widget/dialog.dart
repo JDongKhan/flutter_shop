@@ -21,6 +21,82 @@ void showActionSheet({
   );
 }
 
+Future showCustomDialog({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  ValueChanged<BuildContext>? okAction,
+  ValueChanged<BuildContext>? cancelAction,
+  BoxDecoration? decoration,
+}) {
+  return showCupertinoModalPopup<int?>(
+    context: context,
+    // shape: RoundedRectangleBorder(
+    //     borderRadius: BorderRadiusDirectional.circular(10)),
+    builder: (BuildContext context) {
+      return Container(
+        decoration: decoration ??
+            BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+        child: SafeArea(
+          top: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buttonWidget(
+                    title: '取消',
+                    textColor: Colors.black38,
+                    callback: () {
+                      if (cancelAction != null) {
+                        cancelAction.call(context);
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                  _buttonWidget(
+                    title: '确定',
+                    textColor: Colors.black,
+                    callback: () {
+                      if (okAction != null) {
+                        okAction.call(context);
+                      } else {
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                ],
+              ),
+              builder.call(context),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+//公共button
+Widget _buttonWidget(
+    {String? title, Color? textColor, VoidCallback? callback}) {
+  return TextButton(
+    onPressed: () {
+      callback?.call();
+    },
+    child: Text(
+      title ?? '',
+      style: TextStyle(
+        color: textColor,
+        fontSize: 14,
+      ),
+    ),
+  );
+}
+
 showBottomDialog({
   required BuildContext context,
   required WidgetBuilder builder,
@@ -33,32 +109,40 @@ showBottomDialog({
   );
 }
 
-showAlertDialog({
+Future showAlertDialog({
   required BuildContext context,
   String? title,
   String? message,
-  Function? cancelAction,
-  Function? okAction,
+  ValueChanged<BuildContext>? cancelAction,
+  ValueChanged<BuildContext>? okAction,
+  String? leftBtn,
+  String? rightBtn,
 }) {
-  showDialog(
+  return showDialog(
     context: context,
     builder: (BuildContext context) {
-      return CupertinoAlertDialog(
+      return AlertDialog(
         title: title != null ? Text(title) : null,
         content: message != null ? Text(message) : null,
         actions: <Widget>[
           TextButton(
-            child: const Text('取消'),
+            child: Text(leftBtn ?? '取消'),
             onPressed: () {
-              Navigator.of(context).pop();
-              cancelAction?.call();
+              if (cancelAction != null) {
+                cancelAction.call(context);
+              } else {
+                Navigator.of(context).pop();
+              }
             },
           ),
           TextButton(
-            child: const Text('确定'),
+            child: Text(rightBtn ?? '确定'),
             onPressed: () {
-              Navigator.of(context).pop();
-              okAction?.call();
+              if (okAction != null) {
+                okAction.call(context);
+              } else {
+                Navigator.of(context).pop();
+              }
             },
           )
         ],

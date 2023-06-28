@@ -1,5 +1,5 @@
 /// 从common_utils组件库拷贝过来并修改部分代码，因为只需要它的一部分
-import 'date_util.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 /// 从common_utils组件库拷贝过来并修改部分代码，因为只需要它的一部分
 ///
@@ -50,7 +50,6 @@ abstract class TimelineInfo {
   String weeks(int week) => ''; //x week(星期x).
 
   String days(int days); //x days(x天).
-
 }
 
 class ZhInfo implements TimelineInfo {
@@ -348,11 +347,11 @@ class TimelineUtil {
     int locTimeMs = locMs ?? DateTime.now().millisecondsSinceEpoch;
     int elapsed = locTimeMs - ms;
     if (elapsed < 0) {
-      return DateUtil.formatDateMs(ms, format: formatToday);
+      return ms.toDateTimeString(format: formatToday);
     }
 
     if (DateUtil.isToday(ms, locMs: locTimeMs)) {
-      return DateUtil.formatDateMs(ms, format: formatToday);
+      return ms.toDateTimeString(format: formatToday);
     }
 
     if (DateUtil.isYesterdayByMs(ms, locTimeMs)) {
@@ -364,7 +363,7 @@ class TimelineUtil {
           languageCode: languageCode, short: short);
     }
 
-    return DateUtil.formatDateMs(ms, format: format);
+    return ms.toDateTimeString(format: format);
   }
 
   /// get Yesterday.
@@ -376,7 +375,7 @@ class TimelineUtil {
   ) {
     return info.customYesterday() +
         (dayFormat == DayFormat.full
-            ? (' ${DateUtil.formatDateMs(ms, format: 'HH:mm')}')
+            ? (' ${ms.toDateTimeString(format: 'HH:mm')}')
             : '');
   }
 
@@ -387,7 +386,7 @@ class TimelineUtil {
     DayFormat dayFormat,
   ) {
     if (dayFormat != DayFormat.simple) {
-      return DateUtil.formatDateMs(ms,
+      return ms.toDateTimeString(
           format: (dayFormat == DayFormat.common
               ? 'yyyy-MM-dd'
               : 'yyyy-MM-dd HH:mm'));
@@ -412,10 +411,10 @@ class TimelineUtil {
             : info.days(days.round()));
         break;
       case DayFormat.common:
-        timeline = DateUtil.formatDateMs(ms, format: 'MM-dd');
+        timeline = ms.toDateTimeString(format: 'MM-dd');
         break;
       case DayFormat.full:
-        timeline = DateUtil.formatDateMs(ms, format: 'MM-dd HH:mm');
+        timeline = ms.toDateTimeString(format: 'MM-dd HH:mm');
         break;
     }
     return timeline;

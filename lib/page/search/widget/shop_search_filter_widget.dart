@@ -55,9 +55,8 @@ class _ShopSearchFilterWidgetState extends State<ShopSearchFilterWidget> {
         ),
         DirectionButton(
           icon: const Icon(Icons.location_on),
-          imageDirection: AxisDirection.left,
           text: const Text('南京市'),
-          action: () {},
+          onTap: () {},
         ),
       ],
     );

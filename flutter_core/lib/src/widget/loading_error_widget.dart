@@ -26,49 +26,46 @@ class LoadingErrorWidget extends StatelessWidget {
       errorWidget = child!;
     }
     return Container(
-      margin: const EdgeInsets.only(bottom: 100),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              AssetBundleUtils.getImgPath(errorImage),
-              width: 160,
-              height: 160,
-            ),
-            const SizedBox(
-              height: 11,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 60),
-              child: errorWidget,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextButton(
-              onPressed: () {
-                onRetry?.call();
-              },
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.only(
-                    top: 7, bottom: 7, left: 30, right: 30),
-                foregroundColor: const Color(0xff2457F2),
-                backgroundColor: Colors.white,
-                textStyle: const TextStyle(
-                  fontSize: 16,
-                ),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  side: BorderSide(color: Color(0xff2457F2)),
-                ),
+      alignment: const Alignment(0, -0.3),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset(
+            AssetBundleUtils.getImgPath(errorImage),
+            width: 150,
+            height: 150,
+          ),
+          const SizedBox(
+            height: 11,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 60),
+            child: errorWidget,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextButton(
+            onPressed: () {
+              onRetry?.call();
+            },
+            style: TextButton.styleFrom(
+              padding:
+                  const EdgeInsets.only(top: 7, bottom: 7, left: 30, right: 30),
+              foregroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Colors.white,
+              textStyle: const TextStyle(
+                fontSize: 16,
               ),
-              child: Text(
-                actionTitle,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(6)),
               ),
             ),
-          ],
-        ),
+            child: Text(
+              actionTitle,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -15,7 +15,7 @@ InputBorder dividerBorder() {
     //选中时外边框颜色
     borderRadius: BorderRadius.circular(5.0),
     borderSide: const BorderSide(
-      color: ColorsStyle.divider,
+      color: CommonColorsStyle.divider,
     ),
   );
 }

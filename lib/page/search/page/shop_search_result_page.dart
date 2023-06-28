@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_core/flutter_core.dart';
 
-import '../../../widgets/searchbar/search_bar.dart';
+import '../../../widgets/searchbar/search_bar.dart' as SB;
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
 import '../widget/shop_search_filter_widget.dart';
@@ -71,7 +71,7 @@ class _ShopSearchResultPageState extends State<ShopSearchResultPage> {
   }
 
   Widget _buildSearch() {
-    return SearchBar();
+    return SB.SearchBar();
   }
 
   Widget _buildCondition() {
@@ -90,19 +90,19 @@ class _ShopSearchResultPageState extends State<ShopSearchResultPage> {
           const DirectionButton(
             icon: Icon(Icons.sort),
             text: Text('价格'),
-            imageDirection: AxisDirection.right,
+            alignment: IconTextAlignment.iconRightTextLeft,
             backgroundColor: Colors.transparent,
           ),
           Expanded(child: Container()),
           Builder(
             builder: (BuildContext context) {
               return DirectionButton(
-                action: () {
+                onTap: () {
                   Scaffold.of(context).openEndDrawer();
                 },
                 icon: const Icon(Icons.filter_list),
                 text: const Text('筛选'),
-                imageDirection: AxisDirection.right,
+                alignment: IconTextAlignment.iconRightTextLeft,
                 backgroundColor: Colors.transparent,
               );
             },

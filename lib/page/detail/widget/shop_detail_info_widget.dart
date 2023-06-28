@@ -336,7 +336,7 @@ class _ShopDetailInfoWidgetState extends State<ShopDetailInfoWidget> {
                     Icons.arrow_forward_ios_rounded,
                     color: Colors.grey[400],
                   ),
-                  imageDirection: AxisDirection.right,
+                  alignment: IconTextAlignment.iconRightTextLeft,
                 ),
               ],
             ),

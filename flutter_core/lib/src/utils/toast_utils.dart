@@ -1,5 +1,7 @@
-import 'package:dio/dio.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 /// @author jd
@@ -15,30 +17,34 @@ class ToastUtils {
     return FlutterSmartDialog.observer;
   }
 
-  static void showLoading() {
-    SmartDialog.showLoading();
+  static void showLoading({String? msg}) {
+    SmartDialog.showLoading(msg: msg ?? 'loading...');
   }
 
   static void hiddenLoading() {
     SmartDialog.dismiss();
   }
 
-  static void toast(dynamic msg) {
+  static Future<dynamic> toast<T>(dynamic msg) async {
     msg ??= "未知信息";
     if (msg != null && msg is String) {
-      SmartDialog.showToast(msg);
+      await SmartDialog.showToast(msg);
+      return null;
     } else {
-      toastError(msg);
+      return toastError(msg);
     }
   }
 
-  static void toastError(onError) {
+  static FutureOr<Null> toastError(onError) async {
     String msg = '';
-    if (onError is DioError) {
+    if (onError is AppException) {
+      msg = onError.toString();
+    } else if (onError is DioError) {
       msg = onError.error.toString();
     } else {
       msg = onError.toString();
     }
-    SmartDialog.showToast(msg);
+    await SmartDialog.showToast(msg);
+    return null;
   }
 }

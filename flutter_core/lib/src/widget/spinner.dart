@@ -7,7 +7,7 @@ class Spinner<T> extends StatefulWidget {
   Spinner({
     Key? key,
     required this.items,
-    this.title,
+    this.value,
     this.style,
     this.onChanged,
     this.dropdownColor,
@@ -15,9 +15,9 @@ class Spinner<T> extends StatefulWidget {
   }) : super(key: key);
 
   final List<SpinnerItem<T>> items;
-  final ValueChanged<T>? onChanged;
+  final ValueChanged<int>? onChanged;
   final TextStyle? style;
-  final T? title;
+  final T? value;
   final Color? dropdownColor;
   final InputDecoration? decoration;
 
@@ -33,8 +33,8 @@ class _SpinnerState<T> extends State<Spinner<T>> {
 
   set currentItem(item) {
     _currentItem = item;
-    _textEditingController.text = item.title ?? '';
-    widget.onChanged?.call(item.value);
+    _textEditingController.text = item.value ?? '';
+    widget.onChanged?.call(widget.items.indexOf(item));
   }
 
   OverlayEntry? _overlayEntry;
@@ -48,63 +48,79 @@ class _SpinnerState<T> extends State<Spinner<T>> {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Size size = renderBox.size;
     _overlayEntry = OverlayEntry(
-      builder: (BuildContext context) => Positioned(
-        width: size.width,
-        child: CompositedTransformFollower(
-          link: _layerLink,
-          showWhenUnlinked: false,
-          offset: Offset(0.0, size.height),
-          child: Material(
-            color: widget.dropdownColor ?? Colors.white,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.blue[100]!),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(2.0, 3.0), //阴影xy轴偏移量
-                    blurRadius: 5.0, //阴影模糊程度
-                    spreadRadius: 1.0, //阴影扩散程度
-                  ),
-                ],
-              ),
-              child: Column(
-                children: widget.items
-                    .map(
-                      (e) => ListTile(
-                        key: e.key,
-                        title: e.child ?? Text(e.title!),
-                        onTap: () {
-                          _dismiss();
-                          currentItem = e;
-                          e.onTap?.call();
-                        },
-                      ),
-                    )
-                    .toList(),
+      builder: (BuildContext context) => Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {
+                _dismiss();
+              },
+              child: Container(
+                color: Colors.transparent,
               ),
             ),
           ),
-        ),
+          Positioned(
+            width: size.width,
+            child: CompositedTransformFollower(
+              link: _layerLink,
+              showWhenUnlinked: false,
+              offset: Offset(0.0, size.height),
+              child: Material(
+                color: widget.dropdownColor ?? Colors.white,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.blue[100]!),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(2.0, 3.0), //阴影xy轴偏移量
+                        blurRadius: 5.0, //阴影模糊程度
+                        spreadRadius: 1.0, //阴影扩散程度
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: widget.items
+                        .map(
+                          (e) => ListTile(
+                            key: e.key,
+                            title: e.child,
+                            onTap: () {
+                              _dismiss();
+                              currentItem = e;
+                              e.onTap?.call();
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
-    Overlay.of(context)?.insert(_overlayEntry!);
+    Overlay.maybeOf(context)?.insert(_overlayEntry!);
   }
 
   void _dismiss() {
+    _focusNode.unfocus();
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
 
   @override
   void initState() {
-    _textEditingController.text = '${widget.title ?? widget.items.first.title}';
+    _textEditingController.text = '${widget.value ?? widget.items.first.value}';
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
-        _dismiss();
+        Future.delayed(const Duration(milliseconds: 300), () => _dismiss());
       }
     });
+
     super.initState();
   }
 
@@ -144,16 +160,14 @@ class SpinnerItem<T> {
     this.key,
     this.onTap,
     required this.value,
-    this.title,
     this.enabled = true,
     this.alignment = Alignment.centerLeft,
     this.child,
-  }) : assert(title != null || child != null);
+  }) : assert(child != null);
 
   final Key? key;
   final AlignmentGeometry alignment;
   final VoidCallback? onTap;
-  final String? title;
   final T value;
   final bool enabled;
   final Widget? child;

@@ -7,10 +7,10 @@ import 'package:flutter_core/src/utils/asset_bundles_utils.dart';
 class CircleCheckBox extends StatelessWidget {
   const CircleCheckBox({
     Key? key,
-    this.value = false,
     this.tapSize = const Size(18, 18),
     this.middlePadding = 6,
     this.text,
+    required this.value,
     required this.checkedWidget,
     required this.unCheckWidget,
     required this.onChanged,
@@ -32,14 +32,14 @@ class CircleCheckBox extends StatelessWidget {
 
   CircleCheckBox.icon({
     Key? key,
-    bool value = false,
     Color checkColor = Colors.blue,
     Color unCheckColor = Colors.grey,
+    required bool value,
     required ValueChanged<bool> onChanged,
   }) : this(
           key: key,
-          onChanged: onChanged,
           value: value,
+          onChanged: onChanged,
           checkedWidget: Icon(
             Icons.check_circle,
             color: checkColor,
@@ -52,9 +52,9 @@ class CircleCheckBox extends StatelessWidget {
 
   CircleCheckBox.image({
     Key? key,
-    bool value = false,
     Image? checkImage,
     Image? unCheckImage,
+    required bool value,
     required ValueChanged<bool> onChanged,
   }) : this(
           key: key,

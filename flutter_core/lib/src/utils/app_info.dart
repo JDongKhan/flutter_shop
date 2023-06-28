@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../../flutter_core.dart';
 
 /// @author jd
@@ -29,7 +30,14 @@ class AppInfo {
 
   static void _config(List<DeviceOrientation> orientations) {
     if (kIsWeb) {
+      //https://github.com/flutter/flutter/issues/123365
+      //配置web端状态栏颜色
       //支持web
+      ///沉浸式能力由原生实现
+      // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
+      const SystemUiOverlayStyle systemUiOverlayStyle =
+          SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     } else {
       //强制竖屏
       SystemChrome.setPreferredOrientations(orientations);

@@ -390,14 +390,15 @@ class SettingThemeWidget extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Theme.of(context).accentColor)),
+                          border: Border.all(
+                              color: Theme.of(context).primaryColor)),
                       width: 40,
                       height: 40,
                       child: Text(
                         '?',
                         style: TextStyle(
-                            fontSize: 20, color: Theme.of(context).accentColor),
+                            fontSize: 20,
+                            color: Theme.of(context).primaryColor),
                       ),
                     ),
                   ),

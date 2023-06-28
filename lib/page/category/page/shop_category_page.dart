@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_core/flutter_core.dart';
 import 'package:get/get.dart';
-import '../../../widgets/searchbar/search_bar.dart';
+import '../../../widgets/searchbar/search_bar.dart' as SB;
 import '../../../widgets/searchbar/search_widget.dart';
 import '../../search/page/shop_search_result_page.dart';
 import '../controller/shop_category_controller.dart';
@@ -48,7 +48,7 @@ class _ShopCategoryPageState extends State<ShopCategoryPage>
   }
 
   Widget _buildSearch() {
-    return SearchBar(
+    return SB.SearchBar(
       color: Colors.grey[100]!,
       onTap: () {
         showCustomSearch(

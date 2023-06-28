@@ -75,8 +75,8 @@ final routes = GoRouter(
     GoRoute(
       path: '/web',
       builder: (context, state) => WebPage(
-        url: state.queryParams['url'] ?? '',
-        title: state.queryParams['title'] ?? '',
+        url: state.queryParameters['url'] ?? '',
+        title: state.queryParameters['title'] ?? '',
       ),
     ),
   ],

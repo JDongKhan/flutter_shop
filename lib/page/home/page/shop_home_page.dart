@@ -8,7 +8,7 @@ import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 import '../../../widgets/my_search_delegate.dart';
-import '../../../widgets/searchbar/search_bar.dart';
+import '../../../widgets/searchbar/search_bar.dart' as SB;
 import '../../detail/page/shop_detail_page.dart';
 import '../../model/shop_info.dart';
 import '../../shop_main_page.dart';
@@ -206,7 +206,7 @@ class _ShopHomePageState extends State<ShopHomePage>
       // color: Colors.red,
       // height: 60,
       margin: const EdgeInsets.only(bottom: 10),
-      child: SearchBar(
+      child: SB.SearchBar(
         text: _controller.searchText,
         onTap: () {
           showSearch(context: context, delegate: MySearchDelegate());

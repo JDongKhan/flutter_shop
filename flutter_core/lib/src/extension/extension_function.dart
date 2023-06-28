@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+typedef TimerCallback = Timer? Function();
+
 extension FunctionExt on Function {
   VoidCallback throttle() {
     return FunctionProxy(this).throttle;
@@ -11,7 +13,7 @@ extension FunctionExt on Function {
     return FunctionProxy(this, timeout: timeout).throttleWithTimeout;
   }
 
-  VoidCallback debounce({int? timeout}) {
+  TimerCallback debounce({int? timeout}) {
     return FunctionProxy(this, timeout: timeout).debounce;
   }
 }
@@ -55,7 +57,7 @@ class FunctionProxy {
   }
 
   ///防抖
-  void debounce() {
+  Timer debounce() {
     String key = target.hashCode.toString();
     Timer? timer = _funcDebounce[key];
     timer?.cancel();
@@ -65,5 +67,6 @@ class FunctionProxy {
       target?.call();
     });
     _funcDebounce[key] = timer;
+    return timer;
   }
 }

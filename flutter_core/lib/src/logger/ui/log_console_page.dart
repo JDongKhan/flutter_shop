@@ -5,13 +5,11 @@ import '../../logger/platform_logger_output.dart';
 
 class LogConsolePage extends StatefulWidget {
   final bool dark;
-  final bool showCloseButton;
   final VoidCallback? backAction;
 
   const LogConsolePage({
     Key? key,
     this.dark = true,
-    this.showCloseButton = false,
     this.backAction,
   }) : super(key: key);
 
@@ -161,13 +159,22 @@ class _LogConsolePageState extends State<LogConsolePage> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           const Text(
-            "Log Console",
+            "Console",
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
           const Spacer(),
+          IconButton(
+            onPressed: () {
+              PlatformLoggerOutput.instance.renderedBuffer.clear();
+              setState(() {
+                _filteredBuffer = [];
+              });
+            },
+            icon: const Icon(Icons.delete_outline),
+          ),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
@@ -184,16 +191,16 @@ class _LogConsolePageState extends State<LogConsolePage> {
               });
             },
           ),
-          if (widget.showCloseButton)
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                if (widget.backAction != null) {
-                  widget.backAction?.call();
-                }
-                // Navigator.pop(context);
-              },
-            ),
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              if (widget.backAction != null) {
+                widget.backAction?.call();
+              } else {
+                Navigator.pop(context);
+              }
+            },
+          ),
         ],
       ),
     );
@@ -208,7 +215,7 @@ class _LogConsolePageState extends State<LogConsolePage> {
         children: <Widget>[
           Expanded(
             child: TextField(
-              style: const TextStyle(fontSize: 14),
+              style: const TextStyle(fontSize: 12),
               controller: _filterController,
               onChanged: (s) => _refreshFilter(),
               decoration: const InputDecoration(
@@ -225,42 +232,42 @@ class _LogConsolePageState extends State<LogConsolePage> {
                 value: Level.verbose,
                 child: Text(
                   "VERBOSE",
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
               DropdownMenuItem(
                 value: Level.debug,
                 child: Text(
                   "DEBUG",
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
               DropdownMenuItem(
                 value: Level.info,
                 child: Text(
                   "INFO",
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
               DropdownMenuItem(
                 value: Level.warning,
                 child: Text(
                   "WARNING",
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
               DropdownMenuItem(
                 value: Level.error,
                 child: Text(
                   "ERROR",
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
               DropdownMenuItem(
                 value: Level.wtf,
                 child: Text(
                   "WTF",
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 12),
                 ),
               )
             ],

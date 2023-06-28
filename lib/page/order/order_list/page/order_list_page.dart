@@ -4,7 +4,7 @@ import 'package:flutter_shop/page/category/widget/recommend_tags_widget.dart';
 import 'package:flutter_shop/page/search/page/shop_search_result_page.dart';
 import 'package:get/get.dart';
 
-import '../../../../widgets/searchbar/search_bar.dart';
+import '../../../../widgets/searchbar/search_bar.dart' as SB;
 import '../../../../widgets/searchbar/search_widget.dart';
 import '../controller/order_list_controller.dart';
 import '../widget/order_list_widget.dart';
@@ -93,7 +93,7 @@ class _OrderListPageState extends State<OrderListPage>
   }
 
   Widget _buildSearch() {
-    return SearchBar(
+    return SB.SearchBar(
       color: Colors.grey[100]!,
       onTap: () {
         showCustomSearch(

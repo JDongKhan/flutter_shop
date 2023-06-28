@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import '../logger/ui/log_console_page.dart';
 import 'float_menu_controller.dart';
 import 'setting_proxy/setting_proxy_page.dart';
@@ -21,8 +22,11 @@ class _DeveloperMenuPageState extends State<DeveloperMenuPage> {
       subtitle: '设置代理服务器的ip和端口',
       icon: Icons.phonelink_rounded,
       click: (context) => {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const SettingProxyPage()))
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const SettingProxyPage(),
+          ),
+        )
       },
     ),
   ];
@@ -31,8 +35,11 @@ class _DeveloperMenuPageState extends State<DeveloperMenuPage> {
     subtitle: '查看flutter相关日志',
     icon: Icons.insert_drive_file,
     click: (context) => {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => const LogConsolePage()))
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => const LogConsolePage(),
+        ),
+      )
     },
   );
 
@@ -64,7 +71,6 @@ class _DeveloperMenuPageState extends State<DeveloperMenuPage> {
         leading: InkWell(
           onTap: () {
             Navigator.of(context).pop();
-            floatMenuController.show();
           },
           child: Icon(_getIconData(Theme.of(context).platform)),
         ),

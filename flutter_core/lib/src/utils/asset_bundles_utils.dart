@@ -2,9 +2,11 @@ import 'package:flutter/services.dart' show rootBundle;
 
 /// @author jd
 ///获取本地资源
+
+@Deprecated('请使用generated/Assets')
 class AssetBundleUtils {
   static String getImgPath(String? name, {String format = 'png'}) {
-    assert(name != null,"");
+    assert(name != null, "");
     if (name == null) {
       return "";
     }
@@ -25,9 +27,7 @@ class AssetBundleUtils {
 }
 
 extension AssetBundlesExtensionString on String {
-
-  String get img =>   AssetBundleUtils.getImgPath(this);
+  String get img => AssetBundleUtils.getImgPath(this);
 
   String get icon => AssetBundleUtils.getIconPath(this);
-  
 }

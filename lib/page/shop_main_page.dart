@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as BAD;
 import 'package:flutter/material.dart';
 import 'package:flutter_core/flutter_core.dart';
 
@@ -117,8 +117,9 @@ class _ShopMainPageState extends State<ShopMainPage>
                   dynamic count = e['count'];
                   if (count != null) {
                     return BottomNavigationBarItem(
-                      icon: Badge(
-                        position: BadgePosition.custom(start: 15, bottom: 10),
+                      icon: BAD.Badge(
+                        position:
+                            BAD.BadgePosition.custom(start: 15, bottom: 10),
                         badgeContent: Text(
                           '$count',
                           style:

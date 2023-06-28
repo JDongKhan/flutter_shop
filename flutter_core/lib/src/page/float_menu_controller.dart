@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_core/flutter_core.dart';
 
-import 'developer_menu_page.dart';
 import '../logger/platform_logger_output.dart';
 
 final FloatMenuController floatMenuController = FloatMenuController();
@@ -34,12 +33,12 @@ class FloatMenuController extends ChangeNotifier {
         return const FloatMenuWidget();
       },
     );
-    Overlay.of(targetContext!, rootOverlay: true)?.insert(_overlayEntry!);
+    Overlay.of(targetContext!, rootOverlay: true).insert(_overlayEntry!);
     _isShow = true;
     notifyListeners();
   }
 
-  void gotoLogConsole() {
+  void gotoLogConsole() async {
     if (targetContext == null) {
       return;
     }
@@ -47,8 +46,10 @@ class FloatMenuController extends ChangeNotifier {
       return;
     }
     _isShowLogConsole = true;
-    Navigator.of(targetContext!)
+    dismiss();
+    await Navigator.of(targetContext!)
         .push(MaterialPageRoute(builder: (_) => const DeveloperMenuPage()));
+    show();
     _isShowLogConsole = false;
   }
 
@@ -111,7 +112,6 @@ class _FloatMenuWidgetState extends State<FloatMenuWidget> {
       child: GestureDetector(
         onTap: () {
           floatMenuController.gotoLogConsole();
-          floatMenuController.dismiss();
         },
         onDoubleTap: () {
           floatMenuController.dismiss();

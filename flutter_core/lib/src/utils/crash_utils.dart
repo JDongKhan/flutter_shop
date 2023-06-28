@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 class CrashUtils {
   ///搜集日志
@@ -48,7 +49,15 @@ void configCollect() {
   };
 
   FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.presentError(details);
+    if (kDebugMode) {
+      FlutterError.presentError(details);
+    } else {
+      if (details.stack != null) {
+        Zone.current.handleUncaughtError(details.exception, details.stack!);
+      } else {
+        FlutterError.presentError(details);
+      }
+    }
     if (details.stack != null) {
       reportErrorAndLog(details.exception, details.stack);
       // Zone.current.handleUncaughtError(details.exception, details.stack);
@@ -58,6 +67,7 @@ void configCollect() {
 
 ///收集崩溃
 void reportErrorAndLog(Object error, StackTrace? stackTrace) {
+  logger.e('${error.toString()}\n ${stackTrace.toString()}');
   // 上报错误和日志逻辑
   // print(details);
 }

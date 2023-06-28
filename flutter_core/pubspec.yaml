@@ -13,32 +13,32 @@ dependencies:
 
   ################  网络 ##################
   #网络状态监听
-  dio: ^4.0.6
-  dio_http_cache: ^0.3.0
-  dio_cookie_manager: ^2.0.0
-  cookie_jar: ^3.0.1
-  connectivity_plus: ^3.0.2
+  dio: ^5.2.1+1
+#  dio_http_cache: ^0.3.0
+  dio_cookie_manager: ^3.1.0
+  cookie_jar: ^4.0.5
+  connectivity_plus: ^4.0.1
 
   ################  图片 ################
-  cached_network_image: ^3.2.2
+  cached_network_image: ^3.2.3
 
   ################  能力  ################
 
-  #日志
-  logger: ^1.1.0
-  path: 1.8.2
+  #日志f
+  logger: ^1.4.0
+  path: ^1.8.3
   #path
-  path_provider: ^2.0.11
+  path_provider: ^2.0.15
   #sp 本地存储
-  shared_preferences: ^2.0.17
+  shared_preferences: ^2.1.2
   #本地json对象存储
-  localstorage: ^4.0.0+1
+  localstorage: ^4.0.1+2
   #获取地址
   #geolocator: ^8.0.1
   #屏幕适配
-  flutter_screenutil: ^5.6.0
+  flutter_screenutil: ^5.8.4
   #dialog
-  flutter_smart_dialog: ^4.8.2+3
+  flutter_smart_dialog: ^4.9.2
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +50,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+
+  uses-material-design: true
 
   assets:
     - assets/images/

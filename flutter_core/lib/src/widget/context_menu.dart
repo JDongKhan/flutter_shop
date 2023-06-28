@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_core/flutter_core.dart';
 
 enum Position {
   //位于目标上方，三角指示器在左边
@@ -19,9 +20,50 @@ enum Position {
   rightBottom,
 }
 
+Future showContextMenuList({
+  required BuildContext context,
+  required List<String> data,
+  Position position = Position.belowLeft,
+  Offset? offset,
+  bool hiddenArrow = false,
+  Color backgroundColor = Colors.white,
+  Color borderColor = const Color(0xffeeeeee),
+}) {
+  return showContextMenu(
+      context: context,
+      position: position,
+      offset: offset,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      builder: (BuildContext context) {
+        return Column(
+          children: data
+              .map(
+                (e) => Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: CommonColorsStyle.divider),
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, data.indexOf(e));
+                    },
+                    child: Text(
+                      e,
+                      style: Theme.of(context).appBarTheme.toolbarTextStyle,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        );
+      });
+}
+
 /// @author jd
 ///弹框菜单， 朋友圈使用
-void showContextMenu({
+Future showContextMenu({
   required BuildContext context,
 
   ///context + position 组合使用
@@ -32,7 +74,7 @@ void showContextMenu({
   Color backgroundColor = Colors.white,
   Color borderColor = const Color(0xffeeeeee),
 }) {
-  Navigator.push(
+  return Navigator.push(
     context,
     PopRoute(
       targetContext: context,
@@ -41,6 +83,7 @@ void showContextMenu({
       offset: offset,
       hiddenArrow: hiddenArrow,
       backgroundColor: backgroundColor,
+      borderColor: borderColor,
     ),
   );
 }
@@ -94,8 +137,7 @@ class PopRoute extends PopupRoute {
   String? get barrierLabel => null;
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     //child
     Widget child = builder(context);
 
@@ -152,8 +194,7 @@ class PopRoute extends PopupRoute {
           ),
         ],
       );
-    } else if (position == Position.belowLeft ||
-        position == Position.belowRight) {
+    } else if (position == Position.belowLeft || position == Position.belowRight) {
       top = frame.bottom + (offset?.dy ?? 0);
       left = frame.left + (offset?.dx ?? 0);
       axis = Axis.vertical;
@@ -172,8 +213,7 @@ class PopRoute extends PopupRoute {
           ),
         ],
       );
-    } else if (position == Position.leftTop ||
-        position == Position.leftBottom) {
+    } else if (position == Position.leftTop || position == Position.leftBottom) {
       top = frame.top + (offset?.dy ?? 0);
       left = frame.left + (offset?.dx ?? 0);
       axisAlignment = 1;
@@ -193,8 +233,7 @@ class PopRoute extends PopupRoute {
           ),
         ],
       );
-    } else if (position == Position.rightTop ||
-        position == Position.rightBottom) {
+    } else if (position == Position.rightTop || position == Position.rightBottom) {
       top = frame.top + (offset?.dy ?? 0);
       left = frame.right + (offset?.dx ?? 0);
       rootChild = Stack(
@@ -283,18 +322,15 @@ class _TriangleUpPainter extends CustomPainter {
       _path.moveTo(baseX, baseY);
       _path.lineTo(baseX * 0.5, 0);
       _path.lineTo(0, baseY);
-    } else if (position == Position.aboveLeft ||
-        position == Position.aboveRight) {
+    } else if (position == Position.aboveLeft || position == Position.aboveRight) {
       _path.moveTo(0, 0);
       _path.lineTo(baseX * 0.5, baseY);
       _path.lineTo(baseX, 0);
-    } else if (position == Position.leftTop ||
-        position == Position.leftBottom) {
+    } else if (position == Position.leftTop || position == Position.leftBottom) {
       _path.moveTo(0, 0);
       _path.lineTo(baseX * 0.5, baseY * 0.5);
       _path.lineTo(0, baseY);
-    } else if (position == Position.rightTop ||
-        position == Position.rightBottom) {
+    } else if (position == Position.rightTop || position == Position.rightBottom) {
       _path.moveTo(baseX, 0);
       _path.lineTo(0, baseY * 0.5);
       _path.lineTo(baseX, baseY);
@@ -336,8 +372,7 @@ class _TriangleState extends State<_TriangleUpWidget> {
       height: widget.height,
       width: widget.width,
       child: CustomPaint(
-        painter: _TriangleUpPainter(
-            widget.color, widget.borderColor, widget.position),
+        painter: _TriangleUpPainter(widget.color, widget.borderColor, widget.position),
       ),
     );
   }

@@ -14,6 +14,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
     ScreenUtil().scaleHeight // 实际高度的dp与设计稿px的比例
 */
 
+class ScreenUtils {
+  // This isMobile, isTablet, isDesktop helep us later
+  static bool isMobile() => 1.sw <= 700;
+
+  static bool isTablet() => 1.sw <= 1200 && 1.sw > 700;
+
+  static bool isDesktop() => 1.sw > 1200;
+}
+
 double getScreenWidth() {
   return ScreenUtil().screenWidth;
 }
