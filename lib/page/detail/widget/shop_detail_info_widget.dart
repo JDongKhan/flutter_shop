@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_core/flutter_core.dart';
+import 'package:flutter_shop/page/city/page/city_select_list_page.dart';
 
 import '../../model/shop_info.dart';
 import 'shop_detail_navigator_widget.dart';
@@ -242,42 +243,47 @@ class _ShopDetailInfoWidgetState extends State<ShopDetailInfoWidget> {
                   width: 10,
                 ),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
-                                Text(
-                                  '江苏南京玄武全区',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  '23:00前付款，预计明天（6月18日）送达',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
+                  child: GestureDetector(
+                    onTap: () {
+                      getResult(context);
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const <Widget>[
+                                  Text(
+                                    '江苏南京玄武全区',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    '23:00前付款，预计明天（6月18日）送达',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Colors.grey[400],
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Divider(
-                        height: 0.5,
-                      ),
-                    ],
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.grey[400],
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Divider(
+                          height: 0.5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

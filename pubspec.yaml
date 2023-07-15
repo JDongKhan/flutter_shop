@@ -69,6 +69,9 @@ dependencies:
   #启动图
   flutter_native_splash: ^2.3.1
   extended_nested_scroll_view: ^6.1.1
+  geolocator: ^9.0.2
+  city_pickers:
+    path: package/city_pickers
   loading_more_list: any
   flutter_core:
     path: flutter_core
